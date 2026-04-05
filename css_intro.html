@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 3: CSS Basics — Web Dev Tutorial</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f9f7f4; --surface: #ffffff; --border: #e4e0d8;
+      --text: #1a1814; --muted: #6b6760;
+      --accent: #c84b2f; --accent-light: #fdf0ec;
+      --tag-color: #2d6a8f; --tag-bg: #eaf3fa;
+      --success: #2a6e4e; --success-bg: #eaf5ef;
+      --code-bg: #1e1c1a; --code-text: #f0ebe3;
+      --radius: 8px;
+      --font-serif: 'DM Serif Display', Georgia, serif;
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-sans); background: var(--bg); color: var(--text); line-height: 1.75; font-size: 16px; }
+    .topnav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; gap: 1.5rem; height: 52px; position: sticky; top: 0; z-index: 100; }
+    .nav-logo { font-family: var(--font-serif); font-size: 1rem; color: var(--accent); text-decoration: none; }
+    .nav-home { font-size: 13px; color: var(--muted); text-decoration: none; padding: .3rem .75rem; border-radius: 20px; border: 1px solid var(--border); transition: all .15s; display: flex; align-items: center; gap: 5px; }
+    .nav-home:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+    .nav-divider { width: 1px; height: 18px; background: var(--border); }
+    .nav-links { display: flex; gap: .25rem; }
+    .nav-pill { font-size: 13px; color: var(--muted); text-decoration: none; padding: .3rem .75rem; border-radius: 20px; transition: all .15s; display: flex; align-items: center; gap: 5px; }
+    .nav-pill:hover { background: var(--bg); color: var(--text); }
+    .nav-pill.active { background: var(--accent-light); color: var(--accent); font-weight: 500; }
+    .nav-num { font-family: var(--font-mono); font-size: 10px; opacity: .6; }
+    .layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 52px); max-width: 1060px; margin: 0 auto; }
+    .sidebar { position: sticky; top: 52px; height: calc(100vh - 52px); overflow-y: auto; border-right: 1px solid var(--border); padding: 1.75rem 1.1rem; background: var(--surface); }
+    .nav-group { margin-bottom: 1.25rem; }
+    .nav-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: .4rem; }
+    .sec-link { display: block; font-size: 13px; color: var(--muted); text-decoration: none; padding: .28rem .5rem; border-radius: 5px; transition: all .15s; }
+    .sec-link:hover, .sec-link.active { background: var(--accent-light); color: var(--accent); }
+    .main { padding: 3rem 3rem 2rem; max-width: 740px; }
+    .page-header { margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+    .page-tag { display: inline-block; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .1em; color: var(--accent); background: var(--accent-light); padding: 3px 10px; border-radius: 4px; margin-bottom: .75rem; }
+    .page-title { font-family: var(--font-serif); font-size: 2.4rem; line-height: 1.15; color: var(--text); margin-bottom: .75rem; }
+    .page-desc { font-size: .95rem; color: var(--muted); max-width: 500px; }
+    .section { margin-bottom: 3.25rem; scroll-margin-top: 70px; }
+    .section-header { display: flex; align-items: baseline; gap: 10px; margin-bottom: 1rem; }
+    .section-num { font-family: var(--font-mono); font-size: 12px; color: var(--muted); min-width: 24px; }
+    h2 { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 400; color: var(--text); }
+    h3 { font-size: .78rem; font-weight: 500; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin: 1.5rem 0 .5rem; }
+    p { color: var(--muted); margin-bottom: .75rem; font-size: .93rem; }
+    .tag { display: inline-block; font-family: var(--font-mono); font-size: 12px; color: var(--tag-color); background: var(--tag-bg); padding: 1px 7px; border-radius: 4px; }
+    .tip { background: var(--success-bg); border-left: 3px solid var(--success); border-radius: 0 var(--radius) var(--radius) 0; padding: .75rem 1rem; margin: 1rem 0; font-size: .88rem; color: #2a4a3a; }
+    .tip strong { color: var(--success); }
+    .code-wrap { background: var(--code-bg); border-radius: var(--radius); overflow: hidden; margin: 1rem 0; font-size: .84rem; }
+    .code-header { display: flex; justify-content: space-between; align-items: center; padding: .45rem .9rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .code-label { font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,.3); text-transform: uppercase; letter-spacing: .08em; }
+    .copy-btn { font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,.35); background: none; border: 1px solid rgba(255,255,255,.1); border-radius: 4px; padding: 2px 7px; cursor: pointer; transition: all .15s; }
+    .copy-btn:hover { color: #fff; border-color: rgba(255,255,255,.3); }
+    .copy-btn.copied { color: #6ee7b0; border-color: #6ee7b0; }
+    pre { padding: .9rem 1.1rem; overflow-x: auto; margin: 0; }
+    code { font-family: var(--font-mono); color: var(--code-text); line-height: 1.7; }
+    .hl-sel { color: #f48765; } .hl-prop { color: #c8d1e0; } .hl-val { color: #98c78a; }
+    .hl-comment { color: #6b7a8a; font-style: italic; } .hl-tag { color: #f48765; }
+    .hl-attr { color: #c8d1e0; } .hl-str { color: #98c78a; } .hl-text { color: #f0ebe3; }
+    p code, li code, td code { font-family: var(--font-mono); font-size: .83em; color: var(--tag-color); background: var(--tag-bg); padding: 1px 5px; border-radius: 3px; }
+    .ref-table { width: 100%; border-collapse: collapse; font-size: .87rem; margin: 1rem 0; }
+    .ref-table th { text-align: left; padding: .45rem .7rem; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); border-bottom: 1px solid var(--border); }
+    .ref-table td { padding: .5rem .7rem; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--muted); }
+    .ref-table tr:last-child td { border-bottom: none; }
+    .ref-table tr:hover td { background: var(--bg); }
+    .result-box { border: 1px solid var(--border); border-radius: var(--radius); padding: .9rem 1.25rem; background: var(--surface); margin: .5rem 0 1.25rem; font-size: .9rem; }
+    .result-label { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: .6rem; }
+    .box-diagram { display: grid; place-items: center; padding: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); margin: 1rem 0; }
+    .box-margin { background: #fde8e8; border: 2px dashed #e9a0a0; padding: 1rem; border-radius: 4px; text-align: center; }
+    .box-border { background: #d1e8fd; border: 2px dashed #7ab8e8; padding: 1rem; border-radius: 4px; }
+    .box-padding { background: #d1f5e0; border: 2px dashed #7acf9a; padding: 1rem; border-radius: 4px; }
+    .box-content { background: var(--bg); border: 1px solid var(--border); padding: .6rem 1rem; border-radius: 4px; font-size: .8rem; font-family: var(--font-mono); color: var(--muted); }
+    .box-label { font-size: 10px; font-family: var(--font-mono); display: block; margin-bottom: .3rem; }
+    .box-label.margin { color: #c04040; } .box-label.border-l { color: #2d6a8f; } .box-label.padding-l { color: #2a6e4e; }
+    .color-swatches { display: flex; gap: 8px; flex-wrap: wrap; margin: .75rem 0; }
+    .swatch { width: 44px; height: 44px; border-radius: 6px; border: 1px solid rgba(0,0,0,.1); position: relative; }
+    .swatch-label { font-size: 9px; font-family: var(--font-mono); color: var(--muted); text-align: center; margin-top: 3px; }
+    ul.list { padding-left: 1.25rem; color: var(--muted); font-size: .92rem; }
+    ul.list li { margin-bottom: .35rem; }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 2.25rem 0; }
+    .pagination { display: flex; justify-content: space-between; align-items: center; padding: 2rem 3rem 3rem; max-width: 740px; border-top: 1px solid var(--border); margin-top: 1rem; }
+    .page-btn { display: flex; align-items: center; gap: 8px; text-decoration: none; padding: .6rem 1.1rem; border: 1px solid var(--border); border-radius: var(--radius); font-size: .88rem; color: var(--muted); background: var(--surface); transition: all .15s; }
+    .page-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+    .page-btn.disabled { opacity: .35; pointer-events: none; }
+    .page-btn-label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; display: block; }
+    .page-btn-title { font-weight: 500; display: block; }
+    .home-btn { font-size: .85rem; color: var(--muted); text-decoration: none; padding: .5rem .9rem; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); transition: all .15s; }
+    .home-btn:hover { background: var(--bg); color: var(--text); }
+    @media (max-width: 768px) { .layout { grid-template-columns: 1fr; } .sidebar { display: none; } .main { padding: 2rem 1.25rem 1.5rem; } .page-title { font-size: 2rem; } .nav-links { display: none; } .pagination { padding: 1.5rem 1.25rem 2.5rem; flex-wrap: wrap; gap: .75rem; } }
+  </style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a class="nav-logo" href="index.html">Web Dev</a>
+  <a class="nav-home" href="index.html">🏠 Home</a>
+  <div class="nav-divider"></div>
+  <div class="nav-links">
+    <a class="nav-pill" href="page1.html"><span class="nav-num">01</span> Internet</a>
+    <a class="nav-pill" href="page2.html"><span class="nav-num">02</span> HTML</a>
+    <a class="nav-pill active" href="page3.html"><span class="nav-num">03</span> CSS</a>
+  </div>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="nav-group">
+      <div class="nav-label">Getting started</div>
+      <a class="sec-link" href="#what-is-css">What is CSS?</a>
+      <a class="sec-link" href="#adding-css">Adding CSS to HTML</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Selectors</div>
+      <a class="sec-link" href="#selectors">Element, class, ID</a>
+      <a class="sec-link" href="#combining">Combining selectors</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Styling</div>
+      <a class="sec-link" href="#colors">Colors</a>
+      <a class="sec-link" href="#text">Text and fonts</a>
+      <a class="sec-link" href="#box-model">The box model</a>
+      <a class="sec-link" href="#borders">Borders</a>
+      <a class="sec-link" href="#width-height">Width and height</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Layout</div>
+      <a class="sec-link" href="#display">Display property</a>
+      <a class="sec-link" href="#backgrounds">Backgrounds</a>
+      <a class="sec-link" href="#reference">Quick reference</a>
+    </div>
+  </aside>
+
+  <div>
+  <main class="main">
+    <header class="page-header">
+      <span class="page-tag">Lesson 03</span>
+      <h1 class="page-title">CSS Basics</h1>
+      <p class="page-desc">Make your HTML pages look great with Cascading Style Sheets — control colours, fonts, spacing, and layout.</p>
+    </header>
+
+    <!-- 01 What is CSS -->
+    <section class="section" id="what-is-css">
+      <div class="section-header"><span class="section-num">01</span><h2>What is CSS?</h2></div>
+      <p><strong>CSS</strong> (Cascading Style Sheets) is the language used to style HTML pages. While HTML defines the <em>structure</em> of a page, CSS controls its <em>appearance</em> — colours, fonts, spacing, and layout.</p>
+      <p>A CSS rule has two parts: a <strong>selector</strong> (which element to style) and one or more <strong>declarations</strong> (what to change).</p>
+      <div class="code-wrap">
+        <div class="code-header"><span class="code-label">CSS syntax</span></div>
+        <pre><code><span class="hl-sel">selector</span> {
+  <span class="hl-prop">property</span>: <span class="hl-val">value</span>;
+  <span class="hl-prop">property</span>: <span class="hl-val">value</span>;
+}
+
+<span class="hl-comment">/* Example */</span>
+<span class="hl-sel">p</span> {
+  <span class="hl-prop">color</span>: <span class="hl-val">blue</span>;
+  <span class="hl-prop">font-size</span>: <span class="hl-val">16px</span>;
+}</code></pre>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 02 Adding CSS -->
+    <section class="section" id="adding-css">
+      <div class="section-header"><span class="section-num">02</span><h2>Adding CSS to HTML</h2></div>
+      <p>There are three ways to add CSS to an HTML page.</p>
+
+      <h3>Method 1 — External stylesheet (recommended)</h3>
+      <p>Write CSS in a separate <code>.css</code> file, then link it in the <code>&lt;head&gt;</code>. Best for real projects — keeps HTML and CSS separate.</p>
+      <div class="code-wrap">
+        <div class="code-header"><span class="code-label">HTML — index.html</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code><span class="hl-tag">&lt;head&gt;</span>
+  <span class="hl-tag">&lt;link</span> <span class="hl-attr">rel=</span><span class="hl-str">"stylesheet"</span> <span class="hl-attr">href=</span><span class="hl-str">"style.css"</span><span class="hl-tag">&gt;</span>
+<span class="hl-tag">&lt;/head&gt;</span></code></pre>
+      </div>
+
+      <h3>Method 2 — Internal stylesheet</h3>
+      <p>Write CSS inside a <code>&lt;style&gt;</code> tag in the <code>&lt;head&gt;</code>. Useful for small or single-page projects.</p>
+      <div class="code-wrap">
+        <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code><span class="hl-tag">&lt;head&gt;</span>
+  <span class="hl-tag">&lt;style&gt;</span>
+    <span class="hl-sel">p</span> {
+      <span class="hl-prop">color</span>: <span class="hl-val">navy</span>;
+    }
+  <span class="hl-tag">&lt;/style&gt;</span>
+<span class="hl-tag">&lt;/head&gt;</span></code></pre>
+      </div>
+
+      <h3>Method 3 — Inline style</h3>
+      <p>Apply CSS directly to a single element using the <code>style</code> attribute. Avoid this for large projects — hard to maintain.</p>
+      <div class="code-wrap">
+        <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code><span class="hl-tag">&lt;p</span> <span class="hl-attr">style=</span><span class="hl-str">"color: red; font-size: 18px;"</span><span class="hl-tag">&gt;</span><span class="hl-text">Hello!</span><span class="hl-tag">&lt;/p&gt;</span></code></pre>
+      </div>
+
+      <div class="tip"><strong>Best practice:</strong> Use an external stylesheet for most projects. It keeps your code organised and lets you style multiple pages from one file.</div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 03 Selectors -->
+    <section class="section" id="selectors">
+      <div class="section-header"><span class="section-num">03</span><h2>Selectors — element, class, and ID</h2></div>
+      <p>Selectors tell CSS <em>which</em> HTML elements to style.</p>
+
+      <h3>Element selector</h3>
+      <p>Selects all elements of a given tag. Affects every matching element on the page.</p>
+      <div class="code-wrap">
+        <div class="code-header"><span class="code-label">CSS</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code><span class="hl-sel">p</span> {
+  <span class="hl-prop">color</span>: <span class="hl-val">grey</span>;         <span class="hl-comment">/* all &lt;p&gt; elements */</span>
+}
+
+<span class="hl-sel">h1</span> {
+  <span class="hl-prop">font-size</span>: <span class="hl-val">2rem</span>;    <span class="hl-comment">/* all &lt;h1&gt; elements */</span>
+}</code></pre>
+      </div>
+
+      <h3>Class selector ( . )</h3>
+      <p>Selects elements that have a specific <code>class</code> attribute. The same class can be used on multiple elements. Prefix the class name with a dot.</p>
+      <div class="code-wrap">
+        <div class="code-header"><span class="code-label">CSS + HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code><span class="hl-comment">/* CSS */</span>
+<span class="hl-sel">.highlight</span> {
+  <span class="hl-prop">background-color</span>: <span class="hl-val">yellow</span>;
+  <span class="hl-prop">font-weight</span>: <span class="hl-val">bold</span>;
+}
+
+<span class="hl-comment">/* HTML */</span>
+<span class="hl-tag">&lt;p&gt;</span><span class="hl-text">Normal text. </span><span class="hl-tag">&lt;span</span> <span class="hl-attr">class=</span><span class="hl-str">"highlight"</span><span class="hl-tag">&gt;</span><span class="hl-text">Highlighted text.</span><span class="hl-tag">&lt;/span&gt;&lt;/p&gt;</span>
+<span class="hl-tag">&lt;p</span> <span class="hl-attr">class=</span><span class="hl-str">"highlight"</span><span class="hl-tag">&gt;</span><span class="hl-text">This whole paragraph is highlighted too.</span><span class="hl-tag">&lt;/p&gt;</span></code></pre>
+      </div>
+
+      <h3>ID selector ( # )</h3>
+      <p>Selects a single unique element with a specific <code>id</code>. Each ID must be used only once per page. Prefix with a hash symbol.</p>
+      <div class="code-wrap">
+        <div class="code-header"><span class="code-label">CSS + HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code><span class="hl-comment">/* CSS */</span>
+<span class="hl-sel">#main-title</span> {
+  <span class="hl-prop">color</span>: <span class="hl-val">darkblue</span>;
+  <span class="hl-prop">text-align</span>: <span class="hl-val">center</span>;
+}
+
+<span class="hl-comment">/* HTML */</span>
+<span class="hl-tag">&lt;h1</span> <span class="hl-attr">id=</span><span class="hl-str">"main-title"</span><span class="hl-tag">&gt;</span><span class="hl-text">Welcome to my site</span><span class="hl-tag">&lt;/h1&gt;</span></code></pre>
+      </div>
+
+      <table class="ref-table">
+        <thead><tr><th>Selector</th><th>Syntax</th><th>Matches</th></tr></thead>
+        <tbody>
+          <tr><td>Element</td><td><code>p { }</code></td><td>All <code>&lt;p&gt;</code> tags</td></tr>
+          <tr><td>Class</td><td><code>.highlight { }</code></td><td>All elements with <code>class="highlight"</code></td></tr>
+          <tr><td>ID</td><td><code>#main-title { }</code></td><td>The one element with <code>id="main-title"</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 04 Combining selectors -->
+    <section class="section" id="combining">
+      <div class="section-header"><span class="section-num">04</span><h2>Combining selectors</h2></div>
+      <p>You can write rules that apply to multiple selectors at once, or target elements inside other elements.</p>
+      <div class="code-wrap">
+        <div class="code-header"><span class="code-label">CSS</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code><span class="hl-comment">/* Apply the same rule to multiple selectors */</span>
+<span class="hl-sel">h1, h2, h3</span> {
+  <span class="hl-prop">font-family</span>: <span class="hl-val">Georgia, serif</span>;
+}
+
+<span class="hl-comment">/* Target &lt;a&gt; tags that are inside a &lt;nav&gt; */</span>
+<span class="hl-sel">nav a</span> {
+  <span class="hl-prop">color</span>: <span class="hl-val">white</span>;
+  <span class="hl-prop">text-decoration</span>: <span class="hl-val">none</span>;
+}
+
+<span class="hl-comment">/* Target &lt;p&gt; tags that have class="intro" */</span>
+<span class="hl-sel">p.intro</span> {
+  <span class="hl-prop">font-size</span>: <span class="hl-val">1.1rem</span>;
+}</code></pre>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 05 Colors -->
+    <section class="section" id="colors">
+      <div class="section-header"><span class="section-num">05</span><h2>Colors</h2></div>
+      <p>CSS supports several ways to define colours. You can set the text colour with <code>color</code> and the background with <code>background-color</code>.</p>
+      <div class="code-wrap">
+        <div class="code-header"><span class="code-label">CSS</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code><span class="hl-sel">h1</span> {
+  <span class="hl-prop">color</span>: <span class="hl-val">red</span>;                <span class="hl-comment">/* named colour */</span>
+  <span class="hl-prop">color</span>: <span class="hl-val">#c84b2f</span>;            <span class="hl-comment">/* hex code */</span>
+  <span class="hl-prop">color</span>: <span class="hl-val">rgb(200, 75, 47)</span>;  <span class="hl-comment">/* RGB values (0–255) */</span>
+}
+
+<span class="hl-sel">body</span> {
+  <span class="hl-prop">background-color</span>: <span class="hl-val">#f9f7f4</span>;  <span class="hl-comment">/* light cream background */</span>
+}</code></pre>
+      </div>
+      <h3>Common colour formats</h3>
+      <table class="ref-table">
+        <thead><tr><th>Format</th><th>Example</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>Named</td><td><code>red</code>, <code>navy</code>, <code>gold</code></td><td>147 named colours in CSS</td></tr>
+          <tr><td>Hex</td><td><code>#ff0000</code>, <code>#c84b2f</code></td><td>6-digit hexadecimal code</td></tr>
+          <tr><td>RGB</td><td><code>rgb(255, 0, 0)</code></td><td>Red, green, blue (0–255 each)</td></tr>
+          <tr><td>RGBA</td><td><code>rgba(0, 0, 0, 0.5)</code></td><td>Like RGB but with opacity (0–1)</td></tr>
+        </tbody>
+      </table>
+      <div class="tip"><strong>Tip:</strong> Use a tool like <a href="https://coolors.co" target="_blank" style="color:var(--success)">coolors.co</a> to generate colour palettes, or pick hex codes in VS Code by clicking on a colour swatch.</div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 06 Text and fonts -->
+    <section class="section" id="text">
+      <div class="section-header"><span class="section-num">06</span><h2>Text and fonts</h2></div>
+      <div class="code-wrap">
+        <div class="code-header"><span class="code-label">CSS</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code><span class="hl-sel">p</span> {
+  <span class="hl-prop">font-family</span>: <span class="hl-val">Arial, sans-serif</span>;  <span class="hl-comment">/* typeface */</span>
+  <span class="hl-prop">font-size</span>:   <span class="hl-val">16px</span>;               <span class="hl-comment">/* size in pixels */</span>
+  <span class="hl-prop">font-weight</span>: <span class="hl-val">bold</span>;               <span class="hl-comment">/* normal | bold | 100–900 */</span>
+  <span class="hl-prop">font-style</span>:  <span class="hl-val">italic</span>;             <span class="hl-comment">/* normal | italic */</span>
+  <span class="hl-prop">line-height</span>: <span class="hl-val">1.6</span>;               <span class="hl-comment">/* spacing between lines */</span>
+  <span class="hl-prop">text-align</span>:  <span class="hl-val">center</span>;            <span class="hl-comment">/* left | center | right */</span>
+  <span class="hl-prop">text-decoration</span>: <span class="hl-val">underline</span>;     <span class="hl-comment">/* none | underline */</span>
+  <span class="hl-prop">letter-spacing</span>: <span class="hl-val">0.05em</span>;        <span class="hl-comment">/* space between letters */</span>
+}</code></pre>
+      </div>
+      <div class="result-box">
+        <div class="result-label">Live example</div>
+        <p style="font-family:Georgia,serif;font-size:1rem;color:#1a1814;margin:0 0 .4rem">font-family: Georgia — elegant serif font.</p>
+        <p style="font-size:1.2rem;font-weight:700;color:#c84b2f;margin:0 0 .4rem">font-size: 1.2rem + font-weight: bold + color: accent.</p>
+        <p style="text-align:center;letter-spacing:.1em;text-transform:uppercase;font-size:.8rem;color:#6b6760;margin:0">text-align: center · letter-spacing · text-transform: uppercase</p>
+      </div>
+      <div class="tip"><strong>Google Fonts:</strong> You can use free web fonts by adding a <code>&lt;link&gt;</code> to <code>fonts.googleapis.com</code> in your <code>&lt;head&gt;</code>, then referencing the font name in <code>font-family</code>.</div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 07 Box model -->
+    <section class="section" id="box-model">
+      <div class="section-header"><span class="section-num">07</span><h2>The box model</h2></div>
+      <p>Every HTML element is a rectangular box. The <strong>box model</strong> describes the four layers that make up that box — from inside to outside:</p>
+
+      <div class="box-diagram">
+        <div class="box-margin">
+          <span class="box-label margin">margin — space outside the border</span>
+          <div class="box-border">
+            <span class="box-label border-l">border — the element's border</span>
+            <div class="box-padding">
+              <span class="box-label padding-l">padding — space inside the border</span>
+              <div class="box-content">content</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-header"><span class="code-label">CSS</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code><span class="hl-sel">div</span> {
+  <span class="hl-prop">margin</span>:  <span class="hl-val">20px</span>;           <span class="hl-comment">/* space outside (all sides) */</span>
+  <span class="hl-prop">padding</span>: <span class="hl-val">16px</span>;           <span class="hl-comment">/* space inside (all sides) */</span>
+
+  <span class="hl-comment">/* Control each side individually */</span>
+  <span class="hl-prop">margin-top</span>:    <span class="hl-val">10px</span>;
+  <span class="hl-prop">margin-right</span>:  <span class="hl-val">20px</span>;
+  <span class="hl-prop">margin-bottom</span>: <span class="hl-val">10px</span>;
+  <span class="hl-prop">margin-left</span>:   <span class="hl-val">20px</span>;
+
+  <span class="hl-comment">/* Shorthand: top right bottom left */</span>
+  <span class="hl-prop">margin</span>: <span class="hl-val">10px 20px 10px 20px</span>;
+
+  <span class="hl-comment">/* Shorthand: top/bottom left/right */</span>
+  <span class="hl-prop">margin</span>: <span class="hl-val">10px 20px</span>;
+}</code></pre>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 08 Borders -->
+    <section class="section" id="borders">
+      <div class="section-header"><span class="section-num">08</span><h2>Borders</h2></div>
+      <div class="code-wrap">
+        <div class="code-header"><span class="code-label">CSS</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code><span class="hl-sel">p</span> {
+  <span class="hl-prop">border</span>: <span class="hl-val">1px solid black</span>;        <span class="hl-comment">/* width style colour */</span>
+  <span class="hl-prop">border-radius</span>: <span class="hl-val">8px</span>;             <span class="hl-comment">/* rounded corners */</span>
+  <span class="hl-prop">border-left</span>: <span class="hl-val">4px solid navy</span>;   <span class="hl-comment">/* one side only */</span>
+}</code></pre>
+      </div>
+      <div class="result-box">
+        <div class="result-label">Examples</div>
+        <p style="border:1px solid #e4e0d8;border-radius:6px;padding:.5rem .75rem;margin-bottom:.5rem;color:var(--text);font-size:.88rem">border: 1px solid — standard box border with rounded corners.</p>
+        <p style="border-left:4px solid #c84b2f;padding:.5rem .75rem;color:var(--text);font-size:.88rem">border-left: 4px solid — accent line on the left only.</p>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 09 Width and height -->
+    <section class="section" id="width-height">
+      <div class="section-header"><span class="section-num">09</span><h2>Width and height</h2></div>
+      <div class="code-wrap">
+        <div class="code-header"><span class="code-label">CSS</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code><span class="hl-sel">img</span> {
+  <span class="hl-prop">width</span>:  <span class="hl-val">300px</span>;    <span class="hl-comment">/* fixed width in pixels */</span>
+  <span class="hl-prop">height</span>: <span class="hl-val">200px</span>;    <span class="hl-comment">/* fixed height in pixels */</span>
+}
+
+<span class="hl-sel">.container</span> {
+  <span class="hl-prop">width</span>:     <span class="hl-val">80%</span>;    <span class="hl-comment">/* percentage of parent width */</span>
+  <span class="hl-prop">max-width</span>: <span class="hl-val">800px</span>;  <span class="hl-comment">/* never wider than 800px */</span>
+  <span class="hl-prop">margin</span>:    <span class="hl-val">0 auto</span>; <span class="hl-comment">/* horizontally centred */</span>
+}</code></pre>
+      </div>
+      <div class="tip"><strong>Responsive tip:</strong> Use <code>max-width</code> instead of <code>width</code> for containers. The page will look good on both large screens and small mobile screens.</div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 10 Display -->
+    <section class="section" id="display">
+      <div class="section-header"><span class="section-num">10</span><h2>Display property</h2></div>
+      <p>The <code>display</code> property controls how an element behaves in the flow of the page.</p>
+      <div class="code-wrap">
+        <div class="code-header"><span class="code-label">CSS</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code><span class="hl-sel">.box</span> { <span class="hl-prop">display</span>: <span class="hl-val">block</span>; }   <span class="hl-comment">/* full-width, starts on new line */</span>
+<span class="hl-sel">.tag</span>  { <span class="hl-prop">display</span>: <span class="hl-val">inline</span>; }  <span class="hl-comment">/* sits within text flow */</span>
+<span class="hl-sel">.hide</span> { <span class="hl-prop">display</span>: <span class="hl-val">none</span>; }   <span class="hl-comment">/* hidden, takes no space */</span></code></pre>
+      </div>
+      <table class="ref-table">
+        <thead><tr><th>Value</th><th>Behaviour</th><th>Default for</th></tr></thead>
+        <tbody>
+          <tr><td><code>block</code></td><td>Starts on a new line, full width</td><td><code>&lt;div&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;h1&gt;</code></td></tr>
+          <tr><td><code>inline</code></td><td>Sits inside text, width = content</td><td><code>&lt;span&gt;</code>, <code>&lt;a&gt;</code>, <code>&lt;b&gt;</code></td></tr>
+          <tr><td><code>inline-block</code></td><td>Inline position, but accepts width/height</td><td>Buttons, badges</td></tr>
+          <tr><td><code>none</code></td><td>Completely hidden</td><td>Hidden menus</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 11 Backgrounds -->
+    <section class="section" id="backgrounds">
+      <div class="section-header"><span class="section-num">11</span><h2>Backgrounds</h2></div>
+      <div class="code-wrap">
+        <div class="code-header"><span class="code-label">CSS</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code><span class="hl-sel">body</span> {
+  <span class="hl-prop">background-color</span>: <span class="hl-val">#f9f7f4</span>;
+}
+
+<span class="hl-sel">.hero</span> {
+  <span class="hl-prop">background-image</span>:    <span class="hl-val">url("banner.jpg")</span>;
+  <span class="hl-prop">background-size</span>:     <span class="hl-val">cover</span>;      <span class="hl-comment">/* fill the box */</span>
+  <span class="hl-prop">background-position</span>: <span class="hl-val">center</span>;     <span class="hl-comment">/* centre the image */</span>
+  <span class="hl-prop">background-repeat</span>:   <span class="hl-val">no-repeat</span>;  <span class="hl-comment">/* don't tile */</span>
+}</code></pre>
+      </div>
+    </section>
+
+    <hr class="divider">
+
+    <!-- 12 Quick reference -->
+    <section class="section" id="reference">
+      <div class="section-header"><span class="section-num">12</span><h2>Quick reference</h2></div>
+      <table class="ref-table">
+        <thead><tr><th>Property</th><th>Example value</th><th>What it does</th></tr></thead>
+        <tbody>
+          <tr><td><code>color</code></td><td><code>#333</code></td><td>Text colour</td></tr>
+          <tr><td><code>background-color</code></td><td><code>lightblue</code></td><td>Background colour</td></tr>
+          <tr><td><code>font-family</code></td><td><code>Arial, sans-serif</code></td><td>Typeface</td></tr>
+          <tr><td><code>font-size</code></td><td><code>16px</code> / <code>1rem</code></td><td>Text size</td></tr>
+          <tr><td><code>font-weight</code></td><td><code>bold</code> / <code>400</code></td><td>Thickness of text</td></tr>
+          <tr><td><code>font-style</code></td><td><code>italic</code></td><td>Italic text</td></tr>
+          <tr><td><code>text-align</code></td><td><code>center</code></td><td>Horizontal text alignment</td></tr>
+          <tr><td><code>text-decoration</code></td><td><code>none</code></td><td>Underline, overline, line-through</td></tr>
+          <tr><td><code>line-height</code></td><td><code>1.6</code></td><td>Space between lines</td></tr>
+          <tr><td><code>margin</code></td><td><code>20px</code></td><td>Space outside the element</td></tr>
+          <tr><td><code>padding</code></td><td><code>12px 16px</code></td><td>Space inside the element</td></tr>
+          <tr><td><code>border</code></td><td><code>1px solid black</code></td><td>Element border</td></tr>
+          <tr><td><code>border-radius</code></td><td><code>8px</code></td><td>Rounded corners</td></tr>
+          <tr><td><code>width</code></td><td><code>300px</code> / <code>50%</code></td><td>Element width</td></tr>
+          <tr><td><code>max-width</code></td><td><code>800px</code></td><td>Maximum element width</td></tr>
+          <tr><td><code>height</code></td><td><code>200px</code></td><td>Element height</td></tr>
+          <tr><td><code>display</code></td><td><code>block</code> / <code>none</code></td><td>How element flows on page</td></tr>
+          <tr><td><code>background-image</code></td><td><code>url("img.jpg")</code></td><td>Background image</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+  </main>
+
+  <nav class="pagination">
+    <a class="page-btn" href="page2.html"><span class="page-btn-label">← Previous</span><span class="page-btn-title">HTML Basics</span></a>
+    <a class="home-btn" href="index.html">🏠 Home</a>
+    <a class="page-btn disabled" href="#"><span class="page-btn-label">Next lesson</span><span class="page-btn-title">Coming soon</span></a>
+  </nav>
+  </div>
+</div>
+
+<script>
+  function copyCode(btn) {
+    const text = btn.closest('.code-wrap').querySelector('pre').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+  const secLinks = document.querySelectorAll('.sec-link');
+  document.querySelectorAll('.section').forEach(s =>
+    new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { secLinks.forEach(l => l.classList.remove('active')); const a = document.querySelector(`.sec-link[href="#${e.target.id}"]`); if (a) a.classList.add('active'); }
+    }), { threshold: 0.4 }).observe(s));
+</script>
+</body>
+</html>
