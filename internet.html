@@ -3,203 +3,228 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How the Internet Works — Introduction to Web Development</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <title>Lesson 1: How the Internet Works — Web Dev Tutorial</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f9f7f4;
-      --surface: #ffffff;
-      --border: #e4e0d8;
-      --text: #1a1814;
-      --muted: #6b6760;
-      --accent: #c84b2f;
-      --accent-light: #fdf0ec;
-      --code-bg: #1e1c1a;
-      --code-text: #f0ebe3;
-      --tag-color: #2d6a8f;
-      --tag-bg: #eaf3fa;
-      --success: #2a6e4e;
-      --success-bg: #eaf5ef;
+      --bg: #f9f7f4; --surface: #ffffff; --border: #e4e0d8;
+      --text: #1a1814; --muted: #6b6760;
+      --accent: #c84b2f; --accent-light: #fdf0ec;
+      --tag-color: #2d6a8f; --tag-bg: #eaf3fa;
+      --success: #2a6e4e; --success-bg: #eaf5ef;
+      --code-bg: #1e1c1a; --code-text: #f0ebe3;
       --radius: 8px;
       --font-serif: 'DM Serif Display', Georgia, serif;
       --font-sans: 'DM Sans', system-ui, sans-serif;
-      --font-mono: 'DM Mono', 'Courier New', monospace;
+      --font-mono: 'DM Mono', monospace;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body { font-family: var(--font-sans); background: var(--bg); color: var(--text); line-height: 1.75; font-size: 16px; }
 
-    .layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; max-width: 1100px; margin: 0 auto; }
+    /* ── Top nav ── */
+    .topnav {
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      padding: 0 2rem; display: flex; align-items: center; gap: 1.5rem;
+      height: 52px; position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo { font-family: var(--font-serif); font-size: 1rem; color: var(--accent); text-decoration: none; white-space: nowrap; }
+    .nav-home {
+      font-size: 13px; color: var(--muted); text-decoration: none;
+      padding: .3rem .75rem; border-radius: 20px; border: 1px solid var(--border);
+      transition: all .15s; display: flex; align-items: center; gap: 5px;
+    }
+    .nav-home:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+    .nav-divider { width: 1px; height: 18px; background: var(--border); }
+    .nav-links { display: flex; gap: .25rem; }
+    .nav-pill {
+      font-size: 13px; color: var(--muted); text-decoration: none;
+      padding: .3rem .75rem; border-radius: 20px; transition: all .15s;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .nav-pill:hover { background: var(--bg); color: var(--text); }
+    .nav-pill.active { background: var(--accent-light); color: var(--accent); font-weight: 500; }
+    .nav-num { font-family: var(--font-mono); font-size: 10px; opacity: .6; }
 
-    /* Sidebar */
-    .sidebar { position: sticky; top: 0; height: 100vh; overflow-y: auto; border-right: 1px solid var(--border); padding: 2rem 1.25rem; background: var(--surface); }
-    .sidebar-logo { font-family: var(--font-serif); font-size: 1.1rem; color: var(--accent); margin-bottom: .25rem; }
-    .sidebar-sub { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 1.25rem; }
+    /* ── Layout ── */
+    .layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 52px); max-width: 1060px; margin: 0 auto; }
 
-    .page-switcher { display: flex; flex-direction: column; gap: 4px; margin-bottom: 1.5rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border); }
-    .switcher-link { font-size: 13px; text-decoration: none; padding: .35rem .6rem; border-radius: 5px; color: var(--muted); transition: all .15s; }
-    .switcher-link:hover { background: var(--bg); color: var(--text); }
-    .switcher-link.current { background: var(--accent-light); color: var(--accent); font-weight: 500; }
-
+    /* ── Sidebar ── */
+    .sidebar {
+      position: sticky; top: 52px; height: calc(100vh - 52px);
+      overflow-y: auto; border-right: 1px solid var(--border);
+      padding: 1.75rem 1.1rem; background: var(--surface);
+    }
     .nav-group { margin-bottom: 1.25rem; }
     .nav-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: .4rem; }
-    .nav-link { display: block; font-size: 13.5px; color: var(--muted); text-decoration: none; padding: .3rem .5rem; border-radius: 5px; transition: background .15s, color .15s; }
-    .nav-link:hover, .nav-link.active { background: var(--accent-light); color: var(--accent); }
+    .sec-link { display: block; font-size: 13px; color: var(--muted); text-decoration: none; padding: .28rem .5rem; border-radius: 5px; transition: all .15s; }
+    .sec-link:hover, .sec-link.active { background: var(--accent-light); color: var(--accent); }
 
-    /* Main */
-    .main { padding: 3rem 3rem 6rem; max-width: 760px; }
+    /* ── Main ── */
+    .main { padding: 3rem 3rem 2rem; max-width: 740px; }
     .page-header { margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
     .page-tag { display: inline-block; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .1em; color: var(--accent); background: var(--accent-light); padding: 3px 10px; border-radius: 4px; margin-bottom: .75rem; }
-    .page-title { font-family: var(--font-serif); font-size: 2.6rem; line-height: 1.15; color: var(--text); margin-bottom: .75rem; }
-    .page-desc { font-size: 1rem; color: var(--muted); max-width: 520px; }
+    .page-title { font-family: var(--font-serif); font-size: 2.4rem; line-height: 1.15; color: var(--text); margin-bottom: .75rem; }
+    .page-desc { font-size: .95rem; color: var(--muted); max-width: 500px; }
 
-    .section { margin-bottom: 3.5rem; scroll-margin-top: 2rem; }
+    .section { margin-bottom: 3.25rem; scroll-margin-top: 70px; }
     .section-header { display: flex; align-items: baseline; gap: 10px; margin-bottom: 1rem; }
     .section-num { font-family: var(--font-mono); font-size: 12px; color: var(--muted); min-width: 24px; }
-    h2 { font-family: var(--font-serif); font-size: 1.55rem; font-weight: 400; color: var(--text); }
-    h3 { font-size: .8rem; font-weight: 500; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin: 1.5rem 0 .5rem; }
-    p { color: var(--muted); margin-bottom: .75rem; font-size: .95rem; }
+    h2 { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 400; color: var(--text); }
+    h3 { font-size: .78rem; font-weight: 500; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin: 1.5rem 0 .5rem; }
+    p { color: var(--muted); margin-bottom: .75rem; font-size: .93rem; }
 
-    .tag { display: inline-block; font-family: var(--font-mono); font-size: 13px; color: var(--tag-color); background: var(--tag-bg); padding: 1px 7px; border-radius: 4px; }
-    .tag-url { color: var(--accent); background: var(--accent-light); font-family: var(--font-mono); font-size: .88rem; display: inline-block; padding: 2px 8px; border-radius: 4px; }
+    .tag { display: inline-block; font-family: var(--font-mono); font-size: 12px; color: var(--tag-color); background: var(--tag-bg); padding: 1px 7px; border-radius: 4px; }
 
     .tip { background: var(--success-bg); border-left: 3px solid var(--success); border-radius: 0 var(--radius) var(--radius) 0; padding: .75rem 1rem; margin: 1rem 0; font-size: .88rem; color: #2a4a3a; }
     .tip strong { color: var(--success); }
 
-    .code-wrap { background: var(--code-bg); border-radius: var(--radius); overflow: hidden; margin: 1rem 0; font-size: .85rem; }
-    .code-header { display: flex; justify-content: space-between; align-items: center; padding: .5rem .9rem; border-bottom: 1px solid rgba(255,255,255,.08); }
-    .code-label { font-family: var(--font-mono); font-size: 11px; color: rgba(255,255,255,.35); text-transform: uppercase; letter-spacing: .08em; }
-    .copy-btn { font-family: var(--font-mono); font-size: 11px; color: rgba(255,255,255,.4); background: none; border: 1px solid rgba(255,255,255,.12); border-radius: 4px; padding: 2px 8px; cursor: pointer; transition: all .15s; }
+    .code-wrap { background: var(--code-bg); border-radius: var(--radius); overflow: hidden; margin: 1rem 0; font-size: .84rem; }
+    .code-header { display: flex; justify-content: space-between; align-items: center; padding: .45rem .9rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .code-label { font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,.3); text-transform: uppercase; letter-spacing: .08em; }
+    .copy-btn { font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,.35); background: none; border: 1px solid rgba(255,255,255,.1); border-radius: 4px; padding: 2px 7px; cursor: pointer; transition: all .15s; }
     .copy-btn:hover { color: #fff; border-color: rgba(255,255,255,.3); }
     .copy-btn.copied { color: #6ee7b0; border-color: #6ee7b0; }
-    pre { padding: 1rem 1.1rem; overflow-x: auto; margin: 0; }
+    pre { padding: .9rem 1.1rem; overflow-x: auto; margin: 0; }
     code { font-family: var(--font-mono); color: var(--code-text); line-height: 1.7; }
-    .hl-key { color: #c8d1e0; }
-    .hl-val { color: #98c78a; }
     .hl-comment { color: #6b7a8a; font-style: italic; }
-    .hl-url { color: #f48765; }
     .hl-proto { color: #d4a5f5; }
     .hl-domain { color: #98c78a; }
     .hl-path { color: #f0ebe3; }
+    .hl-url { color: #f48765; }
+    .hl-val { color: #98c78a; }
 
-    /* Diagram boxes */
-    .diagram { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; margin: 1rem 0; }
-    .flow { display: flex; align-items: center; gap: 0; flex-wrap: wrap; justify-content: center; }
-    .flow-box { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: .6rem 1rem; font-size: .85rem; font-weight: 500; text-align: center; min-width: 90px; }
-    .flow-box.accent { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
-    .flow-box.blue { background: var(--tag-bg); border-color: var(--tag-color); color: var(--tag-color); }
-    .flow-arrow { font-size: 1.1rem; color: var(--muted); padding: 0 .5rem; }
-    .flow-label { font-size: 11px; color: var(--muted); text-align: center; margin-top: .35rem; }
+    p code, li code, td code { font-family: var(--font-mono); font-size: .83em; color: var(--tag-color); background: var(--tag-bg); padding: 1px 5px; border-radius: 3px; }
 
-    .url-breakdown { display: flex; margin: 1rem 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; font-family: var(--font-mono); font-size: .9rem; }
-    .url-part { padding: .6rem .8rem; text-align: center; flex: 1; }
-    .url-part .label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; margin-top: .25rem; }
-    .url-proto { background: #f0e8ff; color: #6a2da8; }
-    .url-proto .label { color: #6a2da8; }
-    .url-dom { background: var(--tag-bg); color: var(--tag-color); }
-    .url-dom .label { color: var(--tag-color); }
-    .url-path-bg { background: #eaf5ef; color: var(--success); }
-    .url-path-bg .label { color: var(--success); }
-
-    .ref-table { width: 100%; border-collapse: collapse; font-size: .88rem; margin: 1rem 0; }
-    .ref-table th { text-align: left; padding: .5rem .75rem; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); border-bottom: 1px solid var(--border); }
-    .ref-table td { padding: .55rem .75rem; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--muted); }
-    .ref-table td:first-child { white-space: nowrap; }
+    .ref-table { width: 100%; border-collapse: collapse; font-size: .87rem; margin: 1rem 0; }
+    .ref-table th { text-align: left; padding: .45rem .7rem; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); border-bottom: 1px solid var(--border); }
+    .ref-table td { padding: .5rem .7rem; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--muted); }
     .ref-table tr:last-child td { border-bottom: none; }
     .ref-table tr:hover td { background: var(--bg); }
 
-    p code, li code, td code { font-family: var(--font-mono); font-size: .85em; color: var(--tag-color); background: var(--tag-bg); padding: 1px 5px; border-radius: 3px; }
-    ul.list { padding-left: 1.25rem; color: var(--muted); font-size: .93rem; }
-    ul.list li { margin-bottom: .35rem; }
-
     .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
     .info-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.1rem; }
-    .info-card h4 { font-size: .82rem; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: .5rem; }
-    .info-card p { font-size: .88rem; margin: 0; }
+    .info-card h4 { font-size: .8rem; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: .5rem; }
+    .info-card p { font-size: .87rem; margin: 0; }
 
-    .status-pill { display: inline-block; font-family: var(--font-mono); font-size: .8rem; padding: 2px 8px; border-radius: 4px; }
+    .diagram { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1rem; margin: 1rem 0; }
+    .flow { display: flex; align-items: center; gap: 0; flex-wrap: wrap; justify-content: center; }
+    .flow-box { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: .5rem .9rem; font-size: .82rem; font-weight: 500; text-align: center; min-width: 80px; }
+    .flow-box.accent { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+    .flow-box.blue { background: var(--tag-bg); border-color: var(--tag-color); color: var(--tag-color); }
+    .flow-label { font-size: 10px; color: var(--muted); text-align: center; margin-top: .25rem; }
+    .flow-arrow { font-size: 1rem; color: var(--muted); padding: 0 .4rem; }
+
+    .url-breakdown { display: flex; margin: 1rem 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; font-family: var(--font-mono); font-size: .88rem; }
+    .url-part { padding: .6rem .8rem; text-align: center; flex: 1; }
+    .url-part .label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; margin-top: .25rem; }
+    .url-proto { background: #f0e8ff; color: #6a2da8; } .url-proto .label { color: #6a2da8; }
+    .url-dom { background: var(--tag-bg); color: var(--tag-color); } .url-dom .label { color: var(--tag-color); }
+    .url-path-bg { background: var(--success-bg); color: var(--success); } .url-path-bg .label { color: var(--success); }
+
+    .status-pill { display: inline-block; font-family: var(--font-mono); font-size: .78rem; padding: 2px 7px; border-radius: 4px; }
     .status-ok { background: var(--success-bg); color: var(--success); }
-    .status-err { background: #fdf0ec; color: var(--accent); }
+    .status-err { background: var(--accent-light); color: var(--accent); }
 
-    hr.divider { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+    ul.list { padding-left: 1.25rem; color: var(--muted); font-size: .92rem; }
+    ul.list li, ol.list li { margin-bottom: .35rem; }
+    ol.list { padding-left: 1.25rem; color: var(--muted); font-size: .92rem; }
+
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 2.25rem 0; }
+
+    /* ── Bottom pagination ── */
+    .pagination {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 2rem 3rem 3rem; max-width: 740px;
+      border-top: 1px solid var(--border); margin-top: 1rem;
+    }
+    .page-btn {
+      display: flex; align-items: center; gap: 8px;
+      text-decoration: none; padding: .6rem 1.1rem;
+      border: 1px solid var(--border); border-radius: var(--radius);
+      font-size: .88rem; color: var(--muted); background: var(--surface);
+      transition: all .15s;
+    }
+    .page-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+    .page-btn.disabled { opacity: .35; pointer-events: none; }
+    .page-btn-label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; display: block; }
+    .page-btn-title { font-weight: 500; display: block; }
+    .home-btn {
+      font-size: .85rem; color: var(--muted); text-decoration: none;
+      padding: .5rem .9rem; border-radius: var(--radius);
+      border: 1px solid var(--border); background: var(--surface);
+      transition: all .15s;
+    }
+    .home-btn:hover { background: var(--bg); color: var(--text); }
 
     @media (max-width: 768px) {
       .layout { grid-template-columns: 1fr; }
       .sidebar { display: none; }
-      .main { padding: 2rem 1.25rem 4rem; }
+      .main { padding: 2rem 1.25rem 1.5rem; }
       .page-title { font-size: 2rem; }
       .two-col { grid-template-columns: 1fr; }
       .url-breakdown { flex-direction: column; }
+      .nav-links { display: none; }
+      .pagination { padding: 1.5rem 1.25rem 2.5rem; flex-wrap: wrap; gap: .75rem; }
     }
   </style>
 </head>
 <body>
 
+<nav class="topnav">
+  <a class="nav-logo" href="index.html">Web Dev</a>
+  <a class="nav-home" href="index.html">🏠 Home</a>
+  <div class="nav-divider"></div>
+  <div class="nav-links">
+    <a class="nav-pill active" href="page1.html"><span class="nav-num">01</span> Internet</a>
+    <a class="nav-pill" href="page2.html"><span class="nav-num">02</span> HTML</a>
+    <a class="nav-pill" href="page3.html"><span class="nav-num">03</span> CSS</a>
+  </div>
+</nav>
+
 <div class="layout">
-
   <aside class="sidebar">
-    <div class="sidebar-logo">Web Dev Tutorial</div>
-    <div class="sidebar-sub">Module 6 · Lesson 1</div>
-
-    <div class="page-switcher">
-      <a class="switcher-link" href="index.html">📄 HTML Basics</a>
-      <a class="switcher-link current" href="internet.html">🌐 How the Internet Works</a>
+    <div class="nav-group">
+      <div class="nav-label">Foundations</div>
+      <a class="sec-link" href="#what-is-internet">What is the Internet?</a>
+      <a class="sec-link" href="#client-server">Clients and servers</a>
+      <a class="sec-link" href="#ip-address">IP addresses</a>
+      <a class="sec-link" href="#domains">Domain names</a>
     </div>
-
-    <nav>
-      <div class="nav-group">
-        <div class="nav-label">Foundations</div>
-        <a class="nav-link" href="#what-is-internet">What is the Internet?</a>
-        <a class="nav-link" href="#client-server">Clients and servers</a>
-        <a class="nav-link" href="#ip-address">IP addresses</a>
-        <a class="nav-link" href="#domains">Domain names</a>
-      </div>
-      <div class="nav-group">
-        <div class="nav-label">Protocols &amp; URLs</div>
-        <a class="nav-link" href="#protocols">Protocols</a>
-        <a class="nav-link" href="#http-https">HTTP vs HTTPS</a>
-        <a class="nav-link" href="#url">URL structure</a>
-        <a class="nav-link" href="#website-vs-page">Website vs web page</a>
-      </div>
-      <div class="nav-group">
-        <div class="nav-label">How sites work</div>
-        <a class="nav-link" href="#static">Static sites</a>
-        <a class="nav-link" href="#dynamic">Dynamic sites</a>
-        <a class="nav-link" href="#status-codes">Status codes</a>
-      </div>
-    </nav>
+    <div class="nav-group">
+      <div class="nav-label">Protocols &amp; URLs</div>
+      <a class="sec-link" href="#protocols">Protocols</a>
+      <a class="sec-link" href="#http-https">HTTP vs HTTPS</a>
+      <a class="sec-link" href="#url">URL structure</a>
+      <a class="sec-link" href="#website-vs-page">Website vs web page</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">How sites work</div>
+      <a class="sec-link" href="#static">Static sites</a>
+      <a class="sec-link" href="#dynamic">Dynamic sites</a>
+      <a class="sec-link" href="#status-codes">Status codes</a>
+    </div>
   </aside>
 
+  <div>
   <main class="main">
-
     <header class="page-header">
-      <span class="page-tag">Beginner</span>
+      <span class="page-tag">Lesson 01</span>
       <h1 class="page-title">How the Internet Works</h1>
       <p class="page-desc">Understand what happens behind the scenes when you type a URL into your browser — from IP addresses to HTTP requests and web servers.</p>
     </header>
 
-    <!-- 1. What is the Internet -->
     <section class="section" id="what-is-internet">
-      <div class="section-header">
-        <span class="section-num">01</span>
-        <h2>What is the Internet?</h2>
-      </div>
+      <div class="section-header"><span class="section-num">01</span><h2>What is the Internet?</h2></div>
       <p>The <strong>Internet</strong> is a global computer network designed for storing, processing, and transmitting information. As of 2021, nearly 60% of the world's population are internet users — making web-related skills more in demand than ever.</p>
-      <p>Think of the Internet as a massive system of connected computers, constantly exchanging data with each other using agreed-upon rules.</p>
+      <p>Think of the Internet as a massive system of connected computers, constantly exchanging data using agreed-upon rules.</p>
     </section>
 
     <hr class="divider">
 
-    <!-- 2. Client and server -->
     <section class="section" id="client-server">
-      <div class="section-header">
-        <span class="section-num">02</span>
-        <h2>Clients and servers</h2>
-      </div>
+      <div class="section-header"><span class="section-num">02</span><h2>Clients and servers</h2></div>
       <p>Every connection on the Internet involves two types of computers:</p>
-
       <div class="two-col">
         <div class="info-card">
           <h4>🖥 Server</h4>
@@ -210,348 +235,214 @@
           <p>Your computer, phone, or browser. It <strong>requests</strong> content from a server and displays it on your screen.</p>
         </div>
       </div>
-
-      <p>When you visit a website, your browser (the client) sends a request to a server. The server finds the requested file and sends it back. The file is not saved on your computer — it is displayed temporarily while you view it. This is why you always see the latest version of a page.</p>
-
+      <p>When you visit a website, your browser (the client) sends a request to a server. The server finds the file and sends it back. The file is not saved on your computer — it is displayed temporarily, so you always see the latest version.</p>
       <div class="diagram">
         <div class="flow">
-          <div>
-            <div class="flow-box blue">Browser (Client)</div>
-            <div class="flow-label">Your computer</div>
-          </div>
+          <div><div class="flow-box blue">Browser</div><div class="flow-label">Your computer</div></div>
           <div class="flow-arrow">→ request →</div>
-          <div>
-            <div class="flow-box accent">Server</div>
-            <div class="flow-label">Stores files</div>
-          </div>
+          <div><div class="flow-box accent">Server</div><div class="flow-label">Stores files</div></div>
           <div class="flow-arrow">← response ←</div>
-          <div>
-            <div class="flow-box blue">Browser (Client)</div>
-            <div class="flow-label">Displays the page</div>
-          </div>
+          <div><div class="flow-box blue">Browser</div><div class="flow-label">Displays page</div></div>
         </div>
       </div>
     </section>
 
     <hr class="divider">
 
-    <!-- 3. IP addresses -->
     <section class="section" id="ip-address">
-      <div class="section-header">
-        <span class="section-num">03</span>
-        <h2>IP addresses</h2>
-      </div>
-      <p>Every computer connected to the Internet has a unique <strong>IP address</strong> — like a postal address for your device. It allows computers to find and communicate with each other.</p>
-
+      <div class="section-header"><span class="section-num">03</span><h2>IP addresses</h2></div>
+      <p>Every computer connected to the Internet has a unique <strong>IP address</strong> — like a postal address for your device — so other computers can find it.</p>
       <h3>IPv4 — the most common format</h3>
-      <p>IPv4 addresses are 4 bytes long, written as four numbers (0–255) separated by dots:</p>
+      <p>Four numbers (0–255) separated by dots:</p>
       <div class="code-wrap">
         <div class="code-header"><span class="code-label">Example</span></div>
-        <pre><code><span class="hl-url">91.198.174.192</span>   <span class="hl-comment">← This is the IP address of Wikipedia</span></code></pre>
+        <pre><code><span class="hl-url">91.198.174.192</span>   <span class="hl-comment">← IP address of Wikipedia</span></code></pre>
       </div>
-
       <h3>IPv6 — the newer format</h3>
-      <p>Because IPv4 addresses are running out (only ~4 billion possible), IPv6 was introduced. It is 16 bytes long and can support vastly more devices:</p>
+      <p>IPv4 is running out (only ~4 billion addresses). IPv6 supports vastly more devices:</p>
       <div class="code-wrap">
         <div class="code-header"><span class="code-label">Example</span></div>
         <pre><code><span class="hl-url">1050:0:0:0:5:600:300c:326b</span>   <span class="hl-comment">← IPv6 address</span></code></pre>
       </div>
-
-      <div class="tip"><strong>Analogy:</strong> An IP address is like a phone number. Every device has a unique one so it can be reached on the network.</div>
+      <div class="tip"><strong>Analogy:</strong> An IP address is like a phone number — every device has a unique one so it can be reached on the network.</div>
     </section>
 
     <hr class="divider">
 
-    <!-- 4. Domain names -->
     <section class="section" id="domains">
-      <div class="section-header">
-        <span class="section-num">04</span>
-        <h2>Domain names</h2>
-      </div>
-      <p>IP addresses are hard for humans to remember. <strong>Domain names</strong> are human-friendly labels that map to an IP address — like a contact name in your phone replacing a long number.</p>
-      <p>A system called <strong>DNS</strong> (Domain Name System) translates domain names into IP addresses behind the scenes.</p>
-
+      <div class="section-header"><span class="section-num">04</span><h2>Domain names</h2></div>
+      <p>IP addresses are hard to remember. <strong>Domain names</strong> are human-friendly labels that map to an IP address — like a contact name replacing a long phone number. The <strong>DNS</strong> (Domain Name System) handles this translation automatically.</p>
       <div class="code-wrap">
         <div class="code-header"><span class="code-label">Example</span></div>
-        <pre><code><span class="hl-comment"># Both of these take you to the same website:</span>
-<span class="hl-url">http://91.198.174.192</span>       <span class="hl-comment">← IP address (hard to remember)</span>
-<span class="hl-url">http://wikipedia.org</span>        <span class="hl-comment">← Domain name (easy to remember)</span></code></pre>
+        <pre><code><span class="hl-comment"># Both take you to the same website:</span>
+<span class="hl-url">http://91.198.174.192</span>    <span class="hl-comment">← IP address (hard to remember)</span>
+<span class="hl-url">http://wikipedia.org</span>     <span class="hl-comment">← Domain name (easy to remember)</span></code></pre>
       </div>
-
-      <p>The domain name system is organized in levels separated by dots. For example, in <code>en.wikipedia.org</code>:</p>
+      <p>In <code>en.wikipedia.org</code>:</p>
       <ul class="list">
-        <li><code>.org</code> — top-level domain (TLD), indicates the type of organisation</li>
-        <li><code>wikipedia</code> — the second-level domain (the site's name)</li>
-        <li><code>en</code> — a subdomain (the English-language version)</li>
+        <li><code>.org</code> — top-level domain (type of organisation)</li>
+        <li><code>wikipedia</code> — the site's name</li>
+        <li><code>en</code> — subdomain (English-language version)</li>
       </ul>
     </section>
 
     <hr class="divider">
 
-    <!-- 5. Protocols -->
     <section class="section" id="protocols">
-      <div class="section-header">
-        <span class="section-num">05</span>
-        <h2>Protocols</h2>
-      </div>
+      <div class="section-header"><span class="section-num">05</span><h2>Protocols</h2></div>
       <p>A <strong>protocol</strong> is a set of rules that defines how computers exchange data. Different types of data use different protocols.</p>
-
       <table class="ref-table">
-        <thead>
-          <tr><th>Protocol</th><th>Full name</th><th>Used for</th></tr>
-        </thead>
+        <thead><tr><th>Protocol</th><th>Full name</th><th>Used for</th></tr></thead>
         <tbody>
-          <tr><td><span class="tag">HTTP / HTTPS</span></td><td>HyperText Transfer Protocol</td><td>Exchanging web pages (HTML documents)</td></tr>
-          <tr><td><span class="tag">FTP</span></td><td>File Transfer Protocol</td><td>Transferring files between computers</td></tr>
+          <tr><td><span class="tag">HTTP / HTTPS</span></td><td>HyperText Transfer Protocol</td><td>Exchanging web pages</td></tr>
+          <tr><td><span class="tag">FTP</span></td><td>File Transfer Protocol</td><td>Transferring files</td></tr>
           <tr><td><span class="tag">SMTP</span></td><td>Simple Mail Transfer Protocol</td><td>Sending emails</td></tr>
-          <tr><td><span class="tag">IMAP</span></td><td>Internet Message Access Protocol</td><td>Receiving and reading emails</td></tr>
-          <tr><td><span class="tag">IRC / IoT</span></td><td>Internet Relay Chat / Internet of Things</td><td>Building connected devices</td></tr>
+          <tr><td><span class="tag">IMAP</span></td><td>Internet Message Access Protocol</td><td>Receiving emails</td></tr>
+          <tr><td><span class="tag">IRC / IoT</span></td><td>Internet Relay Chat / Internet of Things</td><td>Connected devices</td></tr>
         </tbody>
       </table>
-
-      <div class="tip"><strong>Analogy:</strong> Protocols are like languages. If two computers want to exchange data, they must both speak the same protocol — just like two people needing a shared language to communicate.</div>
+      <div class="tip"><strong>Analogy:</strong> Protocols are like languages. Two computers must speak the same protocol to exchange data — just like two people needing a shared language.</div>
     </section>
 
     <hr class="divider">
 
-    <!-- 6. HTTP vs HTTPS -->
     <section class="section" id="http-https">
-      <div class="section-header">
-        <span class="section-num">06</span>
-        <h2>HTTP vs HTTPS</h2>
-      </div>
-      <p>Both <strong>HTTP</strong> and <strong>HTTPS</strong> are protocols for transferring web pages. The key difference is security.</p>
-
+      <div class="section-header"><span class="section-num">06</span><h2>HTTP vs HTTPS</h2></div>
+      <p>Both transfer web pages. The difference is security.</p>
       <div class="two-col">
         <div class="info-card">
           <h4>HTTP</h4>
-          <p><strong>HyperText Transfer Protocol</strong><br>Data is sent as plain text. Anyone intercepting the connection can read it. Not secure for sensitive information.</p>
+          <p>Data is sent as plain text. Anyone intercepting the connection can read it. Not safe for passwords or payments.</p>
         </div>
         <div class="info-card">
           <h4>HTTPS 🔒</h4>
-          <p><strong>HTTP Secure</strong><br>Data is <strong>encrypted</strong> before it is sent. Even if someone intercepts it, they cannot read it. Used for login pages, payments, and all modern websites.</p>
+          <p>Data is <strong>encrypted</strong> before sending. Even if intercepted, it cannot be read. Used by all modern websites.</p>
         </div>
       </div>
-
       <div class="code-wrap">
         <div class="code-header"><span class="code-label">Example</span></div>
-        <pre><code><span class="hl-proto">http://</span><span class="hl-domain">example.com</span>   <span class="hl-comment">← Not secure (avoid for sensitive data)</span>
+        <pre><code><span class="hl-proto">http://</span><span class="hl-domain">example.com</span>   <span class="hl-comment">← Not secure</span>
 <span class="hl-proto">https://</span><span class="hl-domain">example.com</span>  <span class="hl-comment">← Secure and encrypted ✓</span></code></pre>
       </div>
-
-      <div class="tip"><strong>Best practice:</strong> Always use HTTPS for any website you build. Browsers show a padlock icon 🔒 for HTTPS sites, and may warn users that HTTP sites are "Not Secure". GitHub Pages gives you HTTPS for free.</div>
+      <div class="tip"><strong>Good news:</strong> GitHub Pages gives your site HTTPS automatically — for free.</div>
     </section>
 
     <hr class="divider">
 
-    <!-- 7. URL structure -->
     <section class="section" id="url">
-      <div class="section-header">
-        <span class="section-num">07</span>
-        <h2>URL structure</h2>
-      </div>
-      <p>A <strong>URL</strong> (Uniform Resource Locator) is the full address of a resource on the Internet. It tells the browser exactly where to go and which protocol to use.</p>
-
+      <div class="section-header"><span class="section-num">07</span><h2>URL structure</h2></div>
+      <p>A <strong>URL</strong> (Uniform Resource Locator) is the full address of a resource on the Internet. It tells the browser where to go and which protocol to use.</p>
       <div class="url-breakdown">
-        <div class="url-part url-proto">
-          https://
-          <div class="label">Protocol</div>
-        </div>
-        <div class="url-part url-dom">
-          en.wikipedia.org
-          <div class="label">Domain</div>
-        </div>
-        <div class="url-part url-path-bg">
-          /wiki/Main_Page
-          <div class="label">Path</div>
-        </div>
+        <div class="url-part url-proto">https://<div class="label">Protocol</div></div>
+        <div class="url-part url-dom">en.wikipedia.org<div class="label">Domain</div></div>
+        <div class="url-part url-path-bg">/wiki/Main_Page<div class="label">Path</div></div>
       </div>
-
-      <table class="ref-table">
-        <thead><tr><th>Part</th><th>Example</th><th>Purpose</th></tr></thead>
-        <tbody>
-          <tr><td>Protocol</td><td><code>https://</code></td><td>How data is transferred (secure or not)</td></tr>
-          <tr><td>Domain</td><td><code>en.wikipedia.org</code></td><td>Which server to connect to</td></tr>
-          <tr><td>Path</td><td><code>/wiki/Main_Page</code></td><td>Which specific file or page on that server</td></tr>
-        </tbody>
-      </table>
-
       <div class="code-wrap">
-        <div class="code-header"><span class="code-label">More examples</span></div>
-        <pre><code><span class="hl-proto">https://</span><span class="hl-domain">github.com</span><span class="hl-path">/yourusername/yourrepo</span>
-
-<span class="hl-proto">https://</span><span class="hl-domain">yourusername.github.io</span><span class="hl-path">/yourrepo/</span>
-
-<span class="hl-proto">https://</span><span class="hl-domain">yourusername.github.io</span><span class="hl-path">/yourrepo/internet.html</span></code></pre>
+        <div class="code-header"><span class="code-label">GitHub Pages URLs</span></div>
+        <pre><code><span class="hl-proto">https://</span><span class="hl-domain">yourusername.github.io</span><span class="hl-path">/yourrepo/</span>           <span class="hl-comment">← index.html</span>
+<span class="hl-proto">https://</span><span class="hl-domain">yourusername.github.io</span><span class="hl-path">/yourrepo/page2.html</span>   <span class="hl-comment">← HTML lesson</span>
+<span class="hl-proto">https://</span><span class="hl-domain">yourusername.github.io</span><span class="hl-path">/yourrepo/page3.html</span>   <span class="hl-comment">← CSS lesson</span></code></pre>
       </div>
     </section>
 
     <hr class="divider">
 
-    <!-- 8. Website vs web page -->
     <section class="section" id="website-vs-page">
-      <div class="section-header">
-        <span class="section-num">08</span>
-        <h2>Website vs web page</h2>
-      </div>
-      <p>These terms are often confused. Here is the difference:</p>
-
+      <div class="section-header"><span class="section-num">08</span><h2>Website vs web page</h2></div>
       <table class="ref-table">
         <thead><tr><th>Term</th><th>Definition</th><th>Example</th></tr></thead>
         <tbody>
-          <tr><td><strong>Web</strong></td><td>The entire collection of websites on the Internet</td><td><code>http://</code></td></tr>
-          <tr><td><strong>Website</strong></td><td>A set of related web pages under the same domain</td><td><code>en.wikipedia.org</code></td></tr>
-          <tr><td><strong>Web page</strong></td><td>A single HTML document within a website</td><td><code>/wiki/Main_Page</code></td></tr>
+          <tr><td><strong>Web</strong></td><td>All websites on the Internet</td><td><code>http://</code></td></tr>
+          <tr><td><strong>Website</strong></td><td>A set of pages under one domain</td><td><code>wikipedia.org</code></td></tr>
+          <tr><td><strong>Web page</strong></td><td>One HTML document within a site</td><td><code>/wiki/Main_Page</code></td></tr>
         </tbody>
       </table>
-
-      <div class="tip"><strong>Analogy:</strong> A website is like a book; a web page is like a single chapter. Your GitHub Pages site is a website; <code>index.html</code> and <code>internet.html</code> are two of its web pages.</div>
+      <div class="tip"><strong>Analogy:</strong> A website is like a book; a web page is a single chapter. This tutorial is a website; <code>page1.html</code>, <code>page2.html</code>, and <code>page3.html</code> are its pages.</div>
     </section>
 
     <hr class="divider">
 
-    <!-- 9. Static sites -->
     <section class="section" id="static">
-      <div class="section-header">
-        <span class="section-num">09</span>
-        <h2>Static sites</h2>
-      </div>
-      <p>A <strong>static site</strong> always returns the same pre-written files from the server, regardless of who is requesting them. The files are ready-made HTML, CSS, and images stored on the server.</p>
-
-      <h3>How it works — step by step</h3>
+      <div class="section-header"><span class="section-num">09</span><h2>Static sites</h2></div>
+      <p>A <strong>static site</strong> always returns the same pre-written files from the server. The content is the same for every visitor.</p>
       <div class="diagram">
         <div class="flow">
           <div><div class="flow-box blue">Browser</div><div class="flow-label">1. Sends request</div></div>
           <div class="flow-arrow">→</div>
-          <div><div class="flow-box">Server</div><div class="flow-label">2. Finds the file</div></div>
+          <div><div class="flow-box">Server</div><div class="flow-label">2. Finds file</div></div>
           <div class="flow-arrow">→</div>
-          <div><div class="flow-box">Files</div><div class="flow-label">HTML, CSS, images</div></div>
+          <div><div class="flow-box">HTML file</div><div class="flow-label">Ready-made</div></div>
           <div class="flow-arrow">→</div>
-          <div><div class="flow-box blue">Browser</div><div class="flow-label">3. Displays the page</div></div>
+          <div><div class="flow-box blue">Browser</div><div class="flow-label">3. Displays</div></div>
         </div>
       </div>
-
-      <ol class="list" style="padding-left:1.25rem;color:var(--muted);font-size:.93rem;">
-        <li>The browser sends an <strong>HTTP request</strong> with the URL of the page.</li>
-        <li>The server finds the matching file in its file system.</li>
-        <li>The server sends back an <strong>HTTP response</strong> containing the file and a status code.</li>
-        <li>The browser reads the HTML and displays the page.</li>
-      </ol>
-
-      <div class="tip"><strong>GitHub Pages hosts static sites.</strong> Your <code>index.html</code> and <code>internet.html</code> files are exactly this — ready-made HTML files served directly to visitors.</div>
+      <div class="tip"><strong>GitHub Pages hosts static sites.</strong> Your HTML files are served exactly as written — no backend or database needed.</div>
     </section>
 
     <hr class="divider">
 
-    <!-- 10. Dynamic sites -->
     <section class="section" id="dynamic">
-      <div class="section-header">
-        <span class="section-num">10</span>
-        <h2>Dynamic sites</h2>
-      </div>
-      <p>A <strong>dynamic site</strong> generates its content on the fly, based on who is requesting it and what data is available. The page is built differently for each visitor.</p>
-      <p>For example, when you log in to your email, the server generates a page showing <em>your</em> inbox, <em>your</em> name, and <em>your</em> unread count — not a fixed pre-written page.</p>
-
-      <h3>How it works — step by step</h3>
-      <div class="diagram">
-        <div class="flow" style="gap:0;flex-wrap:wrap;justify-content:center">
-          <div><div class="flow-box blue">Browser</div><div class="flow-label">1. Request</div></div>
-          <div class="flow-arrow">→</div>
-          <div><div class="flow-box">Server</div><div class="flow-label">2. Passes to app</div></div>
-          <div class="flow-arrow">→</div>
-          <div><div class="flow-box accent">Web App</div><div class="flow-label">Python / JS</div></div>
-          <div class="flow-arrow">→</div>
-          <div><div class="flow-box">Database</div><div class="flow-label">4. Fetches data</div></div>
-        </div>
-        <div style="text-align:center;margin:.75rem 0;font-size:.8rem;color:var(--muted)">↓ Web app builds the HTML from data + template</div>
-        <div class="flow" style="justify-content:center">
-          <div><div class="flow-box blue">Browser</div><div class="flow-label">6. Displays page</div></div>
-          <div class="flow-arrow">←</div>
-          <div><div class="flow-box accent">Generated HTML</div><div class="flow-label">5. Returned to browser</div></div>
-        </div>
-      </div>
-
-      <h3>Static vs dynamic — quick comparison</h3>
+      <div class="section-header"><span class="section-num">10</span><h2>Dynamic sites</h2></div>
+      <p>A <strong>dynamic site</strong> generates its content on the fly based on who is requesting it and what data is available. For example, Gmail shows <em>your</em> inbox, not a fixed pre-written page.</p>
       <table class="ref-table">
-        <thead><tr><th></th><th>Static site</th><th>Dynamic site</th></tr></thead>
+        <thead><tr><th></th><th>Static</th><th>Dynamic</th></tr></thead>
         <tbody>
-          <tr><td>Content</td><td>Same for everyone</td><td>Different per user or request</td></tr>
-          <tr><td>Files</td><td>Pre-written HTML</td><td>HTML generated on the server</td></tr>
+          <tr><td>Content</td><td>Same for everyone</td><td>Different per user</td></tr>
+          <tr><td>Files</td><td>Pre-written HTML</td><td>HTML built on request</td></tr>
           <tr><td>Technologies</td><td>HTML, CSS</td><td>HTML + Python/JS + Database</td></tr>
-          <tr><td>Example</td><td>This tutorial page</td><td>Gmail, Wikipedia, Facebook</td></tr>
-          <tr><td>Complexity</td><td>Lower — good starting point</td><td>Higher — needs a backend</td></tr>
+          <tr><td>Example</td><td>This tutorial site</td><td>Gmail, Wikipedia, Facebook</td></tr>
         </tbody>
       </table>
     </section>
 
     <hr class="divider">
 
-    <!-- 11. Status codes -->
     <section class="section" id="status-codes">
-      <div class="section-header">
-        <span class="section-num">11</span>
-        <h2>Status codes</h2>
-      </div>
-      <p>Every HTTP response from a server includes a <strong>status code</strong> — a three-digit number that tells the browser whether the request succeeded or failed.</p>
-
+      <div class="section-header"><span class="section-num">11</span><h2>Status codes</h2></div>
+      <p>Every HTTP response includes a <strong>status code</strong> — a three-digit number telling the browser whether the request succeeded or failed.</p>
       <table class="ref-table">
         <thead><tr><th>Code</th><th>Meaning</th><th>When you see it</th></tr></thead>
         <tbody>
-          <tr>
-            <td><span class="status-pill status-ok">200 OK</span></td>
-            <td>Success</td>
-            <td>Every normal page load that works correctly</td>
-          </tr>
-          <tr>
-            <td><span class="status-pill status-err">301 Moved</span></td>
-            <td>Redirect</td>
-            <td>The page has permanently moved to a new URL</td>
-          </tr>
-          <tr>
-            <td><span class="status-pill status-err">404 Not Found</span></td>
-            <td>File missing</td>
-            <td>The requested page does not exist on the server</td>
-          </tr>
-          <tr>
-            <td><span class="status-pill status-err">500 Server Error</span></td>
-            <td>Server problem</td>
-            <td>Something went wrong on the server side</td>
-          </tr>
+          <tr><td><span class="status-pill status-ok">200 OK</span></td><td>Success</td><td>Every normal page load</td></tr>
+          <tr><td><span class="status-pill status-err">301 Moved</span></td><td>Redirect</td><td>Page has permanently moved</td></tr>
+          <tr><td><span class="status-pill status-err">404 Not Found</span></td><td>File missing</td><td>Wrong URL or deleted page</td></tr>
+          <tr><td><span class="status-pill status-err">500 Server Error</span></td><td>Server crashed</td><td>Problem on the server side</td></tr>
         </tbody>
       </table>
-
-      <div class="code-wrap">
-        <div class="code-header"><span class="code-label">What happens when you visit a page</span></div>
-        <pre><code><span class="hl-comment"># Page exists → server responds with:</span>
-<span class="hl-val">200 OK</span> — here is your HTML file.
-
-<span class="hl-comment"># Page does not exist → server responds with:</span>
-<span class="hl-url">404 Not Found</span> — no file at that path.
-
-<span class="hl-comment"># Something crashed on the server → responds with:</span>
-<span class="hl-url">500 Internal Server Error</span></code></pre>
-      </div>
-
-      <div class="tip"><strong>Tip:</strong> On GitHub Pages, if you visit a URL that does not match a file, you will see a 404 error. You can create a file named <code>404.html</code> in your repo to customise that error page.</div>
+      <div class="tip"><strong>Tip:</strong> Create a file named <code>404.html</code> in your repo to show a custom page when someone visits a URL that does not exist.</div>
     </section>
 
   </main>
+
+  <nav class="pagination">
+    <a class="page-btn disabled" href="#"><span class="page-btn-label">Previous</span><span class="page-btn-title">—</span></a>
+    <a class="home-btn" href="index.html">🏠 Home</a>
+    <a class="page-btn" href="page2.html"><span class="page-btn-label">Next lesson</span><span class="page-btn-title">HTML Basics →</span></a>
+  </nav>
+  </div>
 </div>
 
 <script>
-  const links = document.querySelectorAll('.nav-link');
+  function copyCode(btn) {
+    const text = btn.closest('.code-wrap').querySelector('pre').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+  const secLinks = document.querySelectorAll('.sec-link');
   const sections = document.querySelectorAll('.section');
-  const observer = new IntersectionObserver(entries => {
+  new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
-        links.forEach(l => l.classList.remove('active'));
-        const active = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
-        if (active) active.classList.add('active');
+        secLinks.forEach(l => l.classList.remove('active'));
+        const a = document.querySelector(`.sec-link[href="#${e.target.id}"]`);
+        if (a) a.classList.add('active');
       }
     });
-  }, { threshold: 0.35 });
-  sections.forEach(s => observer.observe(s));
+  }, { threshold: 0.4 }).observe ? sections.forEach(s => new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { secLinks.forEach(l => l.classList.remove('active')); const a = document.querySelector(`.sec-link[href="#${e.target.id}"]`); if (a) a.classList.add('active'); }});
+  }, { threshold: 0.4 }).observe(s)) : null;
 </script>
-
 </body>
 </html>
