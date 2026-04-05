@@ -3,435 +3,152 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HTML Tutorial — Introduction to Web Development</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <title>Lesson 2: HTML Basics — Web Dev Tutorial</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f9f7f4;
-      --surface: #ffffff;
-      --border: #e4e0d8;
-      --text: #1a1814;
-      --muted: #6b6760;
-      --accent: #c84b2f;
-      --accent-light: #fdf0ec;
-      --code-bg: #1e1c1a;
-      --code-text: #f0ebe3;
-      --tag-color: #2d6a8f;
-      --tag-bg: #eaf3fa;
-      --success: #2a6e4e;
-      --success-bg: #eaf5ef;
+      --bg: #f9f7f4; --surface: #ffffff; --border: #e4e0d8;
+      --text: #1a1814; --muted: #6b6760;
+      --accent: #c84b2f; --accent-light: #fdf0ec;
+      --tag-color: #2d6a8f; --tag-bg: #eaf3fa;
+      --success: #2a6e4e; --success-bg: #eaf5ef;
+      --code-bg: #1e1c1a; --code-text: #f0ebe3;
       --radius: 8px;
       --font-serif: 'DM Serif Display', Georgia, serif;
       --font-sans: 'DM Sans', system-ui, sans-serif;
-      --font-mono: 'DM Mono', 'Courier New', monospace;
+      --font-mono: 'DM Mono', monospace;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--font-sans);
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.75;
-      font-size: 16px;
-    }
-
-    /* ── Layout ── */
-    .layout {
-      display: grid;
-      grid-template-columns: 240px 1fr;
-      min-height: 100vh;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    /* ── Sidebar ── */
-    .sidebar {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      overflow-y: auto;
-      border-right: 1px solid var(--border);
-      padding: 2rem 1.25rem;
-      background: var(--surface);
-    }
-
-    .sidebar-logo {
-      font-family: var(--font-serif);
-      font-size: 1.1rem;
-      color: var(--accent);
-      margin-bottom: .25rem;
-    }
-
-    .sidebar-sub {
-      font-size: 11px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      margin-bottom: 1.75rem;
-    }
-
-    .nav-group {
-      margin-bottom: 1.25rem;
-    }
-
-    .nav-label {
-      font-size: 10px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: .1em;
-      color: var(--muted);
-      margin-bottom: .4rem;
-    }
-
-    .nav-link {
-      display: block;
-      font-size: 13.5px;
-      color: var(--muted);
-      text-decoration: none;
-      padding: .3rem .5rem;
-      border-radius: 5px;
-      transition: background .15s, color .15s;
-    }
-
-    .nav-link:hover, .nav-link.active {
-      background: var(--accent-light);
-      color: var(--accent);
-    }
-
-    /* ── Main content ── */
-    .main {
-      padding: 3rem 3rem 6rem;
-      max-width: 760px;
-    }
-
-    .page-header {
-      margin-bottom: 3rem;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .page-tag {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: .1em;
-      color: var(--accent);
-      background: var(--accent-light);
-      padding: 3px 10px;
-      border-radius: 4px;
-      margin-bottom: .75rem;
-    }
-
-    .page-title {
-      font-family: var(--font-serif);
-      font-size: 2.6rem;
-      line-height: 1.15;
-      color: var(--text);
-      margin-bottom: .75rem;
-    }
-
-    .page-desc {
-      font-size: 1rem;
-      color: var(--muted);
-      max-width: 520px;
-    }
-
-    /* ── Sections ── */
-    .section {
-      margin-bottom: 3.5rem;
-      scroll-margin-top: 2rem;
-    }
-
-    .section-header {
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-      margin-bottom: 1rem;
-    }
-
-    .section-num {
-      font-family: var(--font-mono);
-      font-size: 12px;
-      color: var(--muted);
-      min-width: 24px;
-    }
-
-    h2 {
-      font-family: var(--font-serif);
-      font-size: 1.55rem;
-      font-weight: 400;
-      color: var(--text);
-    }
-
-    h3 {
-      font-size: .8rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: .1em;
-      color: var(--muted);
-      margin: 1.5rem 0 .5rem;
-    }
-
-    p { color: var(--muted); margin-bottom: .75rem; font-size: .95rem; }
-
-    /* ── Tag pills ── */
-    .tag {
-      display: inline-block;
-      font-family: var(--font-mono);
-      font-size: 13px;
-      color: var(--tag-color);
-      background: var(--tag-bg);
-      padding: 1px 7px;
-      border-radius: 4px;
-    }
-
-    /* ── Tip box ── */
-    .tip {
-      background: var(--success-bg);
-      border-left: 3px solid var(--success);
-      border-radius: 0 var(--radius) var(--radius) 0;
-      padding: .75rem 1rem;
-      margin: 1rem 0;
-      font-size: .88rem;
-      color: #2a4a3a;
-    }
-
+    body { font-family: var(--font-sans); background: var(--bg); color: var(--text); line-height: 1.75; font-size: 16px; }
+    .topnav { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; gap: 1.5rem; height: 52px; position: sticky; top: 0; z-index: 100; }
+    .nav-logo { font-family: var(--font-serif); font-size: 1rem; color: var(--accent); text-decoration: none; }
+    .nav-home { font-size: 13px; color: var(--muted); text-decoration: none; padding: .3rem .75rem; border-radius: 20px; border: 1px solid var(--border); transition: all .15s; display: flex; align-items: center; gap: 5px; }
+    .nav-home:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+    .nav-divider { width: 1px; height: 18px; background: var(--border); }
+    .nav-links { display: flex; gap: .25rem; }
+    .nav-pill { font-size: 13px; color: var(--muted); text-decoration: none; padding: .3rem .75rem; border-radius: 20px; transition: all .15s; display: flex; align-items: center; gap: 5px; }
+    .nav-pill:hover { background: var(--bg); color: var(--text); }
+    .nav-pill.active { background: var(--accent-light); color: var(--accent); font-weight: 500; }
+    .nav-num { font-family: var(--font-mono); font-size: 10px; opacity: .6; }
+    .layout { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 52px); max-width: 1060px; margin: 0 auto; }
+    .sidebar { position: sticky; top: 52px; height: calc(100vh - 52px); overflow-y: auto; border-right: 1px solid var(--border); padding: 1.75rem 1.1rem; background: var(--surface); }
+    .nav-group { margin-bottom: 1.25rem; }
+    .nav-label { font-size: 10px; font-weight: 500; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: .4rem; }
+    .sec-link { display: block; font-size: 13px; color: var(--muted); text-decoration: none; padding: .28rem .5rem; border-radius: 5px; transition: all .15s; }
+    .sec-link:hover, .sec-link.active { background: var(--accent-light); color: var(--accent); }
+    .main { padding: 3rem 3rem 2rem; max-width: 740px; }
+    .page-header { margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+    .page-tag { display: inline-block; font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: .1em; color: var(--accent); background: var(--accent-light); padding: 3px 10px; border-radius: 4px; margin-bottom: .75rem; }
+    .page-title { font-family: var(--font-serif); font-size: 2.4rem; line-height: 1.15; color: var(--text); margin-bottom: .75rem; }
+    .page-desc { font-size: .95rem; color: var(--muted); max-width: 500px; }
+    .section { margin-bottom: 3.25rem; scroll-margin-top: 70px; }
+    .section-header { display: flex; align-items: baseline; gap: 10px; margin-bottom: 1rem; }
+    .section-num { font-family: var(--font-mono); font-size: 12px; color: var(--muted); min-width: 24px; }
+    h2 { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 400; color: var(--text); }
+    h3 { font-size: .78rem; font-weight: 500; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin: 1.5rem 0 .5rem; }
+    p { color: var(--muted); margin-bottom: .75rem; font-size: .93rem; }
+    .tag { display: inline-block; font-family: var(--font-mono); font-size: 12px; color: var(--tag-color); background: var(--tag-bg); padding: 1px 7px; border-radius: 4px; }
+    .tip { background: var(--success-bg); border-left: 3px solid var(--success); border-radius: 0 var(--radius) var(--radius) 0; padding: .75rem 1rem; margin: 1rem 0; font-size: .88rem; color: #2a4a3a; }
     .tip strong { color: var(--success); }
-
-    .warn {
-      background: #fff8ec;
-      border-left: 3px solid #c8882f;
-      border-radius: 0 var(--radius) var(--radius) 0;
-      padding: .75rem 1rem;
-      margin: 1rem 0;
-      font-size: .88rem;
-      color: #4a3a1a;
-    }
-
+    .warn { background: #fff8ec; border-left: 3px solid #c8882f; border-radius: 0 var(--radius) var(--radius) 0; padding: .75rem 1rem; margin: 1rem 0; font-size: .88rem; color: #4a3a1a; }
     .warn strong { color: #c8882f; }
-
-    /* ── Code blocks ── */
-    .code-wrap {
-      background: var(--code-bg);
-      border-radius: var(--radius);
-      overflow: hidden;
-      margin: 1rem 0;
-      font-size: .85rem;
-    }
-
-    .code-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: .5rem .9rem;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-    }
-
-    .code-label {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: rgba(255,255,255,.35);
-      text-transform: uppercase;
-      letter-spacing: .08em;
-    }
-
-    .copy-btn {
-      font-family: var(--font-mono);
-      font-size: 11px;
-      color: rgba(255,255,255,.4);
-      background: none;
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 4px;
-      padding: 2px 8px;
-      cursor: pointer;
-      transition: all .15s;
-    }
-
+    .code-wrap { background: var(--code-bg); border-radius: var(--radius); overflow: hidden; margin: 1rem 0; font-size: .84rem; }
+    .code-header { display: flex; justify-content: space-between; align-items: center; padding: .45rem .9rem; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .code-label { font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,.3); text-transform: uppercase; letter-spacing: .08em; }
+    .copy-btn { font-family: var(--font-mono); font-size: 10px; color: rgba(255,255,255,.35); background: none; border: 1px solid rgba(255,255,255,.1); border-radius: 4px; padding: 2px 7px; cursor: pointer; transition: all .15s; }
     .copy-btn:hover { color: #fff; border-color: rgba(255,255,255,.3); }
     .copy-btn.copied { color: #6ee7b0; border-color: #6ee7b0; }
-
-    pre {
-      padding: 1rem 1.1rem;
-      overflow-x: auto;
-      margin: 0;
-    }
-
-    code {
-      font-family: var(--font-mono);
-      color: var(--code-text);
-      line-height: 1.7;
-    }
-
-    /* Syntax colouring */
-    .hl-tag { color: #f48765; }
-    .hl-attr { color: #c8d1e0; }
-    .hl-val { color: #98c78a; }
-    .hl-comment { color: #6b7a8a; font-style: italic; }
-    .hl-text { color: #f0ebe3; }
-    .hl-doctype { color: #9da8ba; }
-
-    /* ── Result preview ── */
-    .result-box {
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1rem 1.25rem;
-      background: var(--surface);
-      margin: .5rem 0 1.25rem;
-      font-size: .9rem;
-    }
-
-    .result-label {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: .1em;
-      color: var(--muted);
-      margin-bottom: .5rem;
-    }
-
-    /* ── Reference table ── */
-    .ref-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: .88rem;
-      margin: 1rem 0;
-    }
-
-    .ref-table th {
-      text-align: left;
-      padding: .5rem .75rem;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      color: var(--muted);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .ref-table td {
-      padding: .55rem .75rem;
-      border-bottom: 1px solid var(--border);
-      vertical-align: top;
-      color: var(--muted);
-    }
-
-    .ref-table td:first-child { white-space: nowrap; }
+    pre { padding: .9rem 1.1rem; overflow-x: auto; margin: 0; }
+    code { font-family: var(--font-mono); color: var(--code-text); line-height: 1.7; }
+    .hl-tag { color: #f48765; } .hl-attr { color: #c8d1e0; } .hl-val { color: #98c78a; } .hl-comment { color: #6b7a8a; font-style: italic; } .hl-text { color: #f0ebe3; } .hl-doctype { color: #9da8ba; }
+    p code, li code, td code { font-family: var(--font-mono); font-size: .83em; color: var(--tag-color); background: var(--tag-bg); padding: 1px 5px; border-radius: 3px; }
+    .ref-table { width: 100%; border-collapse: collapse; font-size: .87rem; margin: 1rem 0; }
+    .ref-table th { text-align: left; padding: .45rem .7rem; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); border-bottom: 1px solid var(--border); }
+    .ref-table td { padding: .5rem .7rem; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--muted); }
     .ref-table tr:last-child td { border-bottom: none; }
     .ref-table tr:hover td { background: var(--bg); }
-
-    /* ── Inline code ── */
-    p code, li code, td code {
-      font-family: var(--font-mono);
-      font-size: .85em;
-      color: var(--tag-color);
-      background: var(--tag-bg);
-      padding: 1px 5px;
-      border-radius: 3px;
-    }
-
-    ul.list, ol.list { padding-left: 1.25rem; color: var(--muted); font-size: .93rem; }
+    .result-box { border: 1px solid var(--border); border-radius: var(--radius); padding: .9rem 1.1rem; background: var(--surface); margin: .5rem 0 1.25rem; font-size: .9rem; }
+    .result-label { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); margin-bottom: .5rem; }
+    ul.list, ol.list { padding-left: 1.25rem; color: var(--muted); font-size: .92rem; }
     ul.list li, ol.list li { margin-bottom: .35rem; }
-
-    .badge {
-      display: inline-block;
-      font-size: 10px;
-      padding: 1px 7px;
-      border-radius: 20px;
-      font-weight: 500;
-      vertical-align: middle;
-      margin-left: 6px;
-    }
-
-    .badge-new { background: #eaf5ef; color: #2a6e4e; }
-
-    hr.divider {
-      border: none;
-      border-top: 1px solid var(--border);
-      margin: 2.5rem 0;
-    }
-
-    @media (max-width: 768px) {
-      .layout { grid-template-columns: 1fr; }
-      .sidebar { display: none; }
-      .main { padding: 2rem 1.25rem 4rem; }
-      .page-title { font-size: 2rem; }
-    }
+    hr.divider { border: none; border-top: 1px solid var(--border); margin: 2.25rem 0; }
+    .badge { display: inline-block; font-size: 10px; padding: 1px 7px; border-radius: 20px; font-weight: 500; vertical-align: middle; margin-left: 6px; }
+    .badge-new { background: var(--success-bg); color: var(--success); }
+    .pagination { display: flex; justify-content: space-between; align-items: center; padding: 2rem 3rem 3rem; max-width: 740px; border-top: 1px solid var(--border); margin-top: 1rem; }
+    .page-btn { display: flex; align-items: center; gap: 8px; text-decoration: none; padding: .6rem 1.1rem; border: 1px solid var(--border); border-radius: var(--radius); font-size: .88rem; color: var(--muted); background: var(--surface); transition: all .15s; }
+    .page-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+    .page-btn-label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; display: block; }
+    .page-btn-title { font-weight: 500; display: block; }
+    .home-btn { font-size: .85rem; color: var(--muted); text-decoration: none; padding: .5rem .9rem; border-radius: var(--radius); border: 1px solid var(--border); background: var(--surface); transition: all .15s; }
+    .home-btn:hover { background: var(--bg); color: var(--text); }
+    @media (max-width: 768px) { .layout { grid-template-columns: 1fr; } .sidebar { display: none; } .main { padding: 2rem 1.25rem 1.5rem; } .page-title { font-size: 2rem; } .nav-links { display: none; } .pagination { padding: 1.5rem 1.25rem 2.5rem; flex-wrap: wrap; gap: .75rem; } }
   </style>
 </head>
 <body>
 
+<nav class="topnav">
+  <a class="nav-logo" href="index.html">Web Dev</a>
+  <a class="nav-home" href="index.html">🏠 Home</a>
+  <div class="nav-divider"></div>
+  <div class="nav-links">
+    <a class="nav-pill" href="page1.html"><span class="nav-num">01</span> Internet</a>
+    <a class="nav-pill active" href="page2.html"><span class="nav-num">02</span> HTML</a>
+    <a class="nav-pill" href="page3.html"><span class="nav-num">03</span> CSS</a>
+  </div>
+</nav>
+
 <div class="layout">
-
-  <!-- Sidebar -->
   <aside class="sidebar">
-    <div class="sidebar-logo">HTML Tutorial</div>
-    <div class="sidebar-sub">Module 6 · Lesson 1</div>
-
-    <nav>
-      <div class="nav-group">
-        <div class="nav-label">Getting started</div>
-        <a class="nav-link" href="#what-is-html">What is HTML?</a>
-        <a class="nav-link" href="#structure">Document structure</a>
-      </div>
-      <div class="nav-group">
-        <div class="nav-label">Text content</div>
-        <a class="nav-link" href="#headings">Headings</a>
-        <a class="nav-link" href="#paragraphs">Paragraphs</a>
-        <a class="nav-link" href="#formatting">Text formatting</a>
-        <a class="nav-link" href="#blockquote">Blockquote</a>
-      </div>
-      <div class="nav-group">
-        <div class="nav-label">Media &amp; links</div>
-        <a class="nav-link" href="#links">Links</a>
-        <a class="nav-link" href="#images">Images</a>
-      </div>
-      <div class="nav-group">
-        <div class="nav-label">Lists</div>
-        <a class="nav-link" href="#unordered">Unordered list</a>
-        <a class="nav-link" href="#ordered">Ordered list</a>
-        <a class="nav-link" href="#nested">Nested lists</a>
-      </div>
-      <div class="nav-group">
-        <div class="nav-label">Other elements</div>
-        <a class="nav-link" href="#self-closing">Self-closing tags</a>
-        <a class="nav-link" href="#containers">Containers</a>
-        <a class="nav-link" href="#comments">Comments</a>
-        <a class="nav-link" href="#rules">Closing rules</a>
-        <a class="nav-link" href="#reference">Quick reference</a>
-      </div>
-    </nav>
+    <div class="nav-group">
+      <div class="nav-label">Getting started</div>
+      <a class="sec-link" href="#what-is-html">What is HTML?</a>
+      <a class="sec-link" href="#structure">Document structure</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Text content</div>
+      <a class="sec-link" href="#headings">Headings</a>
+      <a class="sec-link" href="#paragraphs">Paragraphs</a>
+      <a class="sec-link" href="#formatting">Text formatting</a>
+      <a class="sec-link" href="#blockquote">Blockquote</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Media &amp; links</div>
+      <a class="sec-link" href="#links">Links</a>
+      <a class="sec-link" href="#images">Images</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Lists</div>
+      <a class="sec-link" href="#unordered">Unordered list</a>
+      <a class="sec-link" href="#ordered">Ordered list</a>
+      <a class="sec-link" href="#nested">Nested lists</a>
+    </div>
+    <div class="nav-group">
+      <div class="nav-label">Other elements</div>
+      <a class="sec-link" href="#self-closing">Self-closing tags</a>
+      <a class="sec-link" href="#containers">Containers</a>
+      <a class="sec-link" href="#comments">Comments</a>
+      <a class="sec-link" href="#rules">Closing rules</a>
+      <a class="sec-link" href="#reference">Quick reference</a>
+    </div>
   </aside>
 
-  <!-- Main -->
+  <div>
   <main class="main">
-
     <header class="page-header">
-      <span class="page-tag">Beginner</span>
-      <h1 class="page-title">Introduction to HTML</h1>
-      <p class="page-desc">Learn how to create the structure of a web page using HyperText Markup Language — the foundation of every website on the internet.</p>
+      <span class="page-tag">Lesson 02</span>
+      <h1 class="page-title">HTML Basics</h1>
+      <p class="page-desc">Learn how to create the structure of a web page using HyperText Markup Language — the foundation of every website on the Internet.</p>
     </header>
 
-    <!-- 1. What is HTML -->
     <section class="section" id="what-is-html">
-      <div class="section-header">
-        <span class="section-num">01</span>
-        <h2>What is HTML?</h2>
-      </div>
-      <p><strong>HTML</strong> (HyperText Markup Language) is the language used to create web pages. It tells the browser what content to show and how to organise it — headings, paragraphs, images, links, and more.</p>
-      <p>HTML uses <strong>tags</strong> written in angle brackets, like <code>&lt;p&gt;</code> for a paragraph. Most tags come in pairs: an opening tag <code>&lt;p&gt;</code> and a closing tag <code>&lt;/p&gt;</code>. Everything between them is the content.</p>
-
+      <div class="section-header"><span class="section-num">01</span><h2>What is HTML?</h2></div>
+      <p><strong>HTML</strong> (HyperText Markup Language) is the language used to create web pages. It tells the browser what content to show and how to organise it. HTML uses <strong>tags</strong> written in angle brackets. Most tags come in pairs: an opening tag <code>&lt;p&gt;</code> and a closing tag <code>&lt;/p&gt;</code>.</p>
       <div class="code-wrap">
-        <div class="code-header">
-          <span class="code-label">HTML</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
+        <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
         <pre><code><span class="hl-tag">&lt;p&gt;</span><span class="hl-text">If </span><span class="hl-tag">&lt;b&gt;</span><span class="hl-text">Tetris</span><span class="hl-tag">&lt;/b&gt;</span><span class="hl-text"> taught me anything, it's that
 </span><span class="hl-tag">&lt;i&gt;</span><span class="hl-text">mistakes accumulate</span><span class="hl-tag">&lt;/i&gt;</span><span class="hl-text"> and </span><span class="hl-tag">&lt;i&gt;</span><span class="hl-text">achievements disappear</span><span class="hl-tag">&lt;/i&gt;</span><span class="hl-text">.</span><span class="hl-tag">&lt;/p&gt;</span></code></pre>
       </div>
-
       <div class="result-box">
         <div class="result-label">Result in browser</div>
         If <b>Tetris</b> taught me anything, it's that <i>mistakes accumulate</i> and <i>achievements disappear</i>.
@@ -440,19 +157,11 @@
 
     <hr class="divider">
 
-    <!-- 2. Document structure -->
     <section class="section" id="structure">
-      <div class="section-header">
-        <span class="section-num">02</span>
-        <h2>Document structure</h2>
-      </div>
-      <p>Every HTML file must follow a standard structure so the browser can read it correctly. Here is the skeleton of a complete HTML page:</p>
-
+      <div class="section-header"><span class="section-num">02</span><h2>Document structure</h2></div>
+      <p>Every HTML file must follow a standard skeleton so the browser can read it correctly.</p>
       <div class="code-wrap">
-        <div class="code-header">
-          <span class="code-label">HTML</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
+        <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
         <pre><code><span class="hl-doctype">&lt;!DOCTYPE html&gt;</span>
 <span class="hl-tag">&lt;html&gt;</span>
   <span class="hl-tag">&lt;head&gt;</span>
@@ -465,40 +174,26 @@
   <span class="hl-tag">&lt;/body&gt;</span>
 <span class="hl-tag">&lt;/html&gt;</span></code></pre>
       </div>
-
-      <h3>What each part does</h3>
       <table class="ref-table">
-        <thead>
-          <tr><th>Tag</th><th>Purpose</th></tr>
-        </thead>
+        <thead><tr><th>Tag</th><th>Purpose</th></tr></thead>
         <tbody>
-          <tr><td><span class="tag">&lt;!DOCTYPE html&gt;</span></td><td>Tells the browser this is an HTML5 document. Always the first line.</td></tr>
-          <tr><td><span class="tag">&lt;html&gt;</span></td><td>The root container for the entire page.</td></tr>
-          <tr><td><span class="tag">&lt;head&gt;</span></td><td>Holds information <em>about</em> the page (not displayed in the browser window).</td></tr>
-          <tr><td><span class="tag">&lt;meta charset="UTF-8"&gt;</span></td><td>Ensures special characters (accents, emoji, Asian scripts) display correctly.</td></tr>
-          <tr><td><span class="tag">&lt;title&gt;</span></td><td>The text shown on the browser tab.</td></tr>
-          <tr><td><span class="tag">&lt;body&gt;</span></td><td>Everything visible in the browser window goes here.</td></tr>
+          <tr><td><span class="tag">&lt;!DOCTYPE html&gt;</span></td><td>Declares the document as HTML5. Always the first line.</td></tr>
+          <tr><td><span class="tag">&lt;html&gt;</span></td><td>Root container for the entire page.</td></tr>
+          <tr><td><span class="tag">&lt;head&gt;</span></td><td>Holds page metadata — not shown in the browser window.</td></tr>
+          <tr><td><span class="tag">&lt;meta charset="UTF-8"&gt;</span></td><td>Ensures special characters display correctly.</td></tr>
+          <tr><td><span class="tag">&lt;title&gt;</span></td><td>Text shown on the browser tab.</td></tr>
+          <tr><td><span class="tag">&lt;body&gt;</span></td><td>Everything visible in the browser window.</td></tr>
         </tbody>
       </table>
-
-      <div class="tip"><strong>Tip:</strong> Always include <code>&lt;meta charset="UTF-8"&gt;</code> in your <code>&lt;head&gt;</code>. Without it, characters like é, ñ, 你好, or emoji may appear broken.</div>
     </section>
 
     <hr class="divider">
 
-    <!-- 3. Headings -->
     <section class="section" id="headings">
-      <div class="section-header">
-        <span class="section-num">03</span>
-        <h2>Headings</h2>
-      </div>
-      <p>HTML provides six levels of headings, from <code>&lt;h1&gt;</code> (largest, most important) to <code>&lt;h6&gt;</code> (smallest). Headings are <strong>block elements</strong> — each one starts on a new line.</p>
-
+      <div class="section-header"><span class="section-num">03</span><h2>Headings</h2></div>
+      <p>HTML provides six heading levels, from <code>&lt;h1&gt;</code> (largest) to <code>&lt;h6&gt;</code> (smallest). Each is a <strong>block element</strong> — it starts on a new line.</p>
       <div class="code-wrap">
-        <div class="code-header">
-          <span class="code-label">HTML</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
+        <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
         <pre><code><span class="hl-tag">&lt;h1&gt;</span><span class="hl-text">Heading 1 — Page title</span><span class="hl-tag">&lt;/h1&gt;</span>
 <span class="hl-tag">&lt;h2&gt;</span><span class="hl-text">Heading 2 — Main section</span><span class="hl-tag">&lt;/h2&gt;</span>
 <span class="hl-tag">&lt;h3&gt;</span><span class="hl-text">Heading 3 — Sub-section</span><span class="hl-tag">&lt;/h3&gt;</span>
@@ -506,282 +201,130 @@
 <span class="hl-tag">&lt;h5&gt;</span><span class="hl-text">Heading 5</span><span class="hl-tag">&lt;/h5&gt;</span>
 <span class="hl-tag">&lt;h6&gt;</span><span class="hl-text">Heading 6</span><span class="hl-tag">&lt;/h6&gt;</span></code></pre>
       </div>
-
-      <div class="result-box">
-        <div class="result-label">Result in browser</div>
-        <h1 style="font-size:1.7rem;margin:.2rem 0">Heading 1</h1>
-        <h2 style="font-size:1.3rem;font-weight:400;margin:.2rem 0">Heading 2</h2>
-        <h3 style="font-size:1.1rem;font-weight:400;text-transform:none;letter-spacing:0;color:var(--text);margin:.2rem 0">Heading 3</h3>
-        <h4 style="font-size:.95rem;font-weight:400;text-transform:none;letter-spacing:0;color:var(--text);margin:.2rem 0">Heading 4</h4>
-        <p style="font-size:.85rem;margin:.1rem 0">Heading 5 &amp; Heading 6 (smaller)</p>
-      </div>
-
-      <div class="tip"><strong>Best practice:</strong> Use only one <code>&lt;h1&gt;</code> per page (the main title). Use <code>&lt;h2&gt;</code>–<code>&lt;h6&gt;</code> in order for sub-sections.</div>
+      <div class="tip"><strong>Best practice:</strong> Use only one <code>&lt;h1&gt;</code> per page. Use <code>&lt;h2&gt;</code>–<code>&lt;h6&gt;</code> in order for sub-sections.</div>
     </section>
 
     <hr class="divider">
 
-    <!-- 4. Paragraphs -->
     <section class="section" id="paragraphs">
-      <div class="section-header">
-        <span class="section-num">04</span>
-        <h2>Paragraphs</h2>
-      </div>
-      <p>The <code>&lt;p&gt;</code> tag defines a block of paragraph text. The browser automatically adds a blank space above and below each paragraph.</p>
-
+      <div class="section-header"><span class="section-num">04</span><h2>Paragraphs</h2></div>
+      <p>The <code>&lt;p&gt;</code> tag defines a paragraph. The browser automatically adds spacing above and below each one.</p>
       <div class="code-wrap">
-        <div class="code-header">
-          <span class="code-label">HTML</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
-        <pre><code><span class="hl-tag">&lt;p&gt;</span><span class="hl-text">The Internet is a global computer network designed
-for storing, processing, and transmitting information.</span><span class="hl-tag">&lt;/p&gt;</span>
-
+        <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code><span class="hl-tag">&lt;p&gt;</span><span class="hl-text">The Internet is a global computer network.</span><span class="hl-tag">&lt;/p&gt;</span>
 <span class="hl-tag">&lt;p&gt;</span><span class="hl-text">Web developers work in two areas: frontend and backend.</span><span class="hl-tag">&lt;/p&gt;</span></code></pre>
       </div>
-
-      <div class="result-box">
-        <div class="result-label">Result in browser</div>
-        <p style="color:var(--text);margin-bottom:.75rem">The Internet is a global computer network designed for storing, processing, and transmitting information.</p>
-        <p style="color:var(--text)">Web developers work in two areas: frontend and backend.</p>
-      </div>
     </section>
 
     <hr class="divider">
 
-    <!-- 5. Text formatting -->
     <section class="section" id="formatting">
-      <div class="section-header">
-        <span class="section-num">05</span>
-        <h2>Text formatting</h2>
-      </div>
-      <p>These <strong>inline elements</strong> let you style parts of your text without starting a new line.</p>
-
-      <h3>Bold text</h3>
+      <div class="section-header"><span class="section-num">05</span><h2>Text formatting</h2></div>
+      <p>These <strong>inline elements</strong> style parts of your text without starting a new line.</p>
+      <h3>Bold</h3>
       <div class="code-wrap">
-        <div class="code-header">
-          <span class="code-label">HTML</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
+        <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
         <pre><code><span class="hl-tag">&lt;p&gt;&lt;b&gt;</span><span class="hl-text">Danger:</span><span class="hl-tag">&lt;/b&gt;</span><span class="hl-text"> falling rocks.</span><span class="hl-tag">&lt;/p&gt;</span>
-
-<span class="hl-comment">&lt;!-- &lt;strong&gt; means bold AND important (preferred) --&gt;</span>
+<span class="hl-comment">&lt;!-- &lt;strong&gt; = bold AND important (preferred) --&gt;</span>
 <span class="hl-tag">&lt;p&gt;&lt;strong&gt;</span><span class="hl-text">Danger:</span><span class="hl-tag">&lt;/strong&gt;</span><span class="hl-text"> falling rocks.</span><span class="hl-tag">&lt;/p&gt;</span></code></pre>
       </div>
-
-      <div class="result-box">
-        <div class="result-label">Result in browser</div>
-        <p style="color:var(--text)"><b>Danger:</b> falling rocks.</p>
-      </div>
-
-      <h3>Italic text</h3>
+      <h3>Italic</h3>
       <div class="code-wrap">
-        <div class="code-header">
-          <span class="code-label">HTML</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
+        <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
         <pre><code><span class="hl-tag">&lt;p&gt;</span><span class="hl-text">I </span><span class="hl-tag">&lt;i&gt;</span><span class="hl-text">love</span><span class="hl-tag">&lt;/i&gt;</span><span class="hl-text"> programming!</span><span class="hl-tag">&lt;/p&gt;</span>
-
-<span class="hl-comment">&lt;!-- &lt;em&gt; means italic AND emphasised (preferred) --&gt;</span>
+<span class="hl-comment">&lt;!-- &lt;em&gt; = italic AND emphasised (preferred) --&gt;</span>
 <span class="hl-tag">&lt;p&gt;</span><span class="hl-text">I </span><span class="hl-tag">&lt;em&gt;</span><span class="hl-text">love</span><span class="hl-tag">&lt;/em&gt;</span><span class="hl-text"> programming!</span><span class="hl-tag">&lt;/p&gt;</span></code></pre>
       </div>
-
-      <div class="result-box">
-        <div class="result-label">Result in browser</div>
-        <p style="color:var(--text)">I <i>love</i> programming!</p>
-      </div>
-
-      <div class="tip"><strong>Tip — <code>&lt;b&gt;</code> vs <code>&lt;strong&gt;</code>:</strong> Both look the same in the browser, but <code>&lt;strong&gt;</code> also signals importance to screen readers and search engines. Prefer <code>&lt;strong&gt;</code> and <code>&lt;em&gt;</code> in modern HTML.</div>
+      <div class="tip"><strong>Tip:</strong> Both <code>&lt;b&gt;/&lt;i&gt;</code> and <code>&lt;strong&gt;/&lt;em&gt;</code> look the same in the browser. Prefer <code>&lt;strong&gt;</code> and <code>&lt;em&gt;</code> — they also signal meaning to screen readers and search engines.</div>
     </section>
 
     <hr class="divider">
 
-    <!-- 6. Blockquote -->
     <section class="section" id="blockquote">
-      <div class="section-header">
-        <span class="section-num">06</span>
-        <h2>Blockquote</h2>
-      </div>
-      <p>Use <code>&lt;blockquote&gt;</code> to display a long quotation from another source. The browser indents it by default.</p>
-
+      <div class="section-header"><span class="section-num">06</span><h2>Blockquote</h2></div>
+      <p>Use <code>&lt;blockquote&gt;</code> to display a long quotation. The browser indents it by default.</p>
       <div class="code-wrap">
-        <div class="code-header">
-          <span class="code-label">HTML</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
+        <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
         <pre><code><span class="hl-tag">&lt;p&gt;</span><span class="hl-text">A quote from </span><span class="hl-tag">&lt;b&gt;</span><span class="hl-text">Steve Jobs</span><span class="hl-tag">&lt;/b&gt;</span><span class="hl-text">:</span><span class="hl-tag">&lt;/p&gt;</span>
 <span class="hl-tag">&lt;blockquote&gt;</span>
   <span class="hl-text">Computers are the most amazing tools I've ever
-  encountered. They're the equivalent of a bicycle
-  for our minds.</span>
+  encountered. They're the bicycle for our minds.</span>
 <span class="hl-tag">&lt;/blockquote&gt;</span></code></pre>
       </div>
-
-      <div class="result-box">
-        <div class="result-label">Result in browser</div>
-        <p style="color:var(--text);margin-bottom:.5rem">A quote from <b>Steve Jobs</b>:</p>
-        <blockquote style="margin-left:1.5rem;border-left:3px solid var(--border);padding-left:1rem;color:var(--muted);font-style:italic">
-          Computers are the most amazing tools I've ever encountered. They're the equivalent of a bicycle for our minds.
-        </blockquote>
-      </div>
     </section>
 
     <hr class="divider">
 
-    <!-- 7. Links -->
     <section class="section" id="links">
-      <div class="section-header">
-        <span class="section-num">07</span>
-        <h2>Links</h2>
-      </div>
-      <p>The <code>&lt;a&gt;</code> (anchor) tag creates a clickable hyperlink. The <code>href</code> attribute specifies where the link goes.</p>
-
+      <div class="section-header"><span class="section-num">07</span><h2>Links</h2></div>
+      <p>The <code>&lt;a&gt;</code> (anchor) tag creates a clickable link. The <code>href</code> attribute specifies where it goes.</p>
       <div class="code-wrap">
-        <div class="code-header">
-          <span class="code-label">HTML</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
+        <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
         <pre><code><span class="hl-comment">&lt;!-- Basic link --&gt;</span>
-<span class="hl-tag">&lt;a</span> <span class="hl-attr">href=</span><span class="hl-val">"https://en.wikipedia.org/wiki/HTML"</span><span class="hl-tag">&gt;</span>
-  <span class="hl-text">What is HTML?</span>
-<span class="hl-tag">&lt;/a&gt;</span>
+<span class="hl-tag">&lt;a</span> <span class="hl-attr">href=</span><span class="hl-val">"https://en.wikipedia.org/wiki/HTML"</span><span class="hl-tag">&gt;</span><span class="hl-text">What is HTML?</span><span class="hl-tag">&lt;/a&gt;</span>
 
-<span class="hl-comment">&lt;!-- Open in a new browser tab --&gt;</span>
-<span class="hl-tag">&lt;a</span> <span class="hl-attr">href=</span><span class="hl-val">"https://en.wikipedia.org"</span>
-   <span class="hl-attr">target=</span><span class="hl-val">"_blank"</span><span class="hl-tag">&gt;</span><span class="hl-text">Wikipedia</span><span class="hl-tag">&lt;/a&gt;</span>
+<span class="hl-comment">&lt;!-- Open in a new tab --&gt;</span>
+<span class="hl-tag">&lt;a</span> <span class="hl-attr">href=</span><span class="hl-val">"https://wikipedia.org"</span> <span class="hl-attr">target=</span><span class="hl-val">"_blank"</span><span class="hl-tag">&gt;</span><span class="hl-text">Wikipedia</span><span class="hl-tag">&lt;/a&gt;</span>
 
-<span class="hl-comment">&lt;!-- Link to another page in the same folder --&gt;</span>
-<span class="hl-tag">&lt;a</span> <span class="hl-attr">href=</span><span class="hl-val">"about.html"</span><span class="hl-tag">&gt;</span><span class="hl-text">About me</span><span class="hl-tag">&lt;/a&gt;</span></code></pre>
+<span class="hl-comment">&lt;!-- Link to another page in the same site --&gt;</span>
+<span class="hl-tag">&lt;a</span> <span class="hl-attr">href=</span><span class="hl-val">"page3.html"</span><span class="hl-tag">&gt;</span><span class="hl-text">Go to CSS lesson</span><span class="hl-tag">&lt;/a&gt;</span></code></pre>
       </div>
-
-      <h3>Attributes</h3>
-      <table class="ref-table">
-        <thead><tr><th>Attribute</th><th>Description</th></tr></thead>
-        <tbody>
-          <tr><td><code>href="..."</code></td><td>The URL the link points to. Required.</td></tr>
-          <tr><td><code>target="_blank"</code></td><td>Opens the link in a new browser tab.</td></tr>
-        </tbody>
-      </table>
     </section>
 
     <hr class="divider">
 
-    <!-- 8. Images -->
     <section class="section" id="images">
-      <div class="section-header">
-        <span class="section-num">08</span>
-        <h2>Images</h2>
-      </div>
-      <p>The <code>&lt;img&gt;</code> tag embeds an image. It is a <strong>self-closing</strong> tag — it has no closing tag. The <code>src</code> attribute specifies the image file path or URL.</p>
-
+      <div class="section-header"><span class="section-num">08</span><h2>Images</h2></div>
+      <p>The <code>&lt;img&gt;</code> tag embeds an image. It is <strong>self-closing</strong> — no closing tag needed.</p>
       <div class="code-wrap">
-        <div class="code-header">
-          <span class="code-label">HTML</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
-        <pre><code><span class="hl-comment">&lt;!-- Image from the same folder --&gt;</span>
-<span class="hl-tag">&lt;img</span> <span class="hl-attr">src=</span><span class="hl-val">"cat.jpg"</span> <span class="hl-attr">alt=</span><span class="hl-val">"A fluffy orange cat"</span><span class="hl-tag">&gt;</span>
+        <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code><span class="hl-tag">&lt;img</span> <span class="hl-attr">src=</span><span class="hl-val">"cat.jpg"</span> <span class="hl-attr">alt=</span><span class="hl-val">"A fluffy orange cat"</span><span class="hl-tag">&gt;</span>
 
-<span class="hl-comment">&lt;!-- Image from the internet --&gt;</span>
+<span class="hl-comment">&lt;!-- From the internet --&gt;</span>
 <span class="hl-tag">&lt;img</span> <span class="hl-attr">src=</span><span class="hl-val">"https://placehold.co/300x200"</span>
-     <span class="hl-attr">alt=</span><span class="hl-val">"Placeholder image"</span><span class="hl-tag">&gt;</span>
-
-<span class="hl-comment">&lt;!-- Set width and height --&gt;</span>
-<span class="hl-tag">&lt;img</span> <span class="hl-attr">src=</span><span class="hl-val">"logo.png"</span>
-     <span class="hl-attr">alt=</span><span class="hl-val">"Company logo"</span>
-     <span class="hl-attr">width=</span><span class="hl-val">"200"</span>
-     <span class="hl-attr">height=</span><span class="hl-val">"100"</span><span class="hl-tag">&gt;</span></code></pre>
+     <span class="hl-attr">alt=</span><span class="hl-val">"Placeholder"</span>
+     <span class="hl-attr">width=</span><span class="hl-val">"300"</span> <span class="hl-attr">height=</span><span class="hl-val">"200"</span><span class="hl-tag">&gt;</span></code></pre>
       </div>
-
-      <h3>Attributes</h3>
-      <table class="ref-table">
-        <thead><tr><th>Attribute</th><th>Description</th></tr></thead>
-        <tbody>
-          <tr><td><code>src="..."</code></td><td>Path or URL of the image. Required.</td></tr>
-          <tr><td><code>alt="..."</code></td><td>Text description of the image. Required for accessibility.</td></tr>
-          <tr><td><code>width="..."</code></td><td>Image width in pixels. Optional.</td></tr>
-          <tr><td><code>height="..."</code></td><td>Image height in pixels. Optional.</td></tr>
-        </tbody>
-      </table>
-
-      <div class="tip"><strong>Tip:</strong> Always write an <code>alt</code> attribute. It is read aloud by screen readers for visually impaired users, and it appears when the image fails to load.</div>
+      <div class="tip"><strong>Always write <code>alt</code>.</strong> It is read by screen readers for visually impaired users, and it appears when the image fails to load.</div>
     </section>
 
     <hr class="divider">
 
-    <!-- 9. Unordered list -->
     <section class="section" id="unordered">
-      <div class="section-header">
-        <span class="section-num">09</span>
-        <h2>Unordered list</h2>
-      </div>
-      <p>An <strong>unordered list</strong> (<code>&lt;ul&gt;</code>) displays items with bullet points. Use it when the order of items does not matter. Each item is wrapped in a <code>&lt;li&gt;</code> tag.</p>
-
+      <div class="section-header"><span class="section-num">09</span><h2>Unordered list</h2></div>
+      <p>A <code>&lt;ul&gt;</code> displays items with bullet points. Use it when order does not matter. Each item uses <code>&lt;li&gt;</code>.</p>
       <div class="code-wrap">
-        <div class="code-header">
-          <span class="code-label">HTML</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
+        <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
         <pre><code><span class="hl-tag">&lt;ul&gt;</span>
   <span class="hl-tag">&lt;li&gt;</span><span class="hl-text">HTML</span><span class="hl-tag">&lt;/li&gt;</span>
   <span class="hl-tag">&lt;li&gt;</span><span class="hl-text">CSS</span><span class="hl-tag">&lt;/li&gt;</span>
   <span class="hl-tag">&lt;li&gt;</span><span class="hl-text">JavaScript</span><span class="hl-tag">&lt;/li&gt;</span>
 <span class="hl-tag">&lt;/ul&gt;</span></code></pre>
       </div>
-
-      <div class="result-box">
-        <div class="result-label">Result in browser</div>
-        <ul style="padding-left:1.5rem;color:var(--text)">
-          <li>HTML</li><li>CSS</li><li>JavaScript</li>
-        </ul>
-      </div>
     </section>
 
     <hr class="divider">
 
-    <!-- 10. Ordered list -->
     <section class="section" id="ordered">
-      <div class="section-header">
-        <span class="section-num">10</span>
-        <h2>Ordered list</h2>
-      </div>
-      <p>An <strong>ordered list</strong> (<code>&lt;ol&gt;</code>) displays items with sequential numbers. Use it when the order matters, such as steps in a process.</p>
-
+      <div class="section-header"><span class="section-num">10</span><h2>Ordered list</h2></div>
+      <p>A <code>&lt;ol&gt;</code> displays items with sequential numbers. Use it when order matters, such as steps.</p>
       <div class="code-wrap">
-        <div class="code-header">
-          <span class="code-label">HTML</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
+        <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
         <pre><code><span class="hl-tag">&lt;ol&gt;</span>
   <span class="hl-tag">&lt;li&gt;</span><span class="hl-text">Write the HTML</span><span class="hl-tag">&lt;/li&gt;</span>
   <span class="hl-tag">&lt;li&gt;</span><span class="hl-text">Add CSS styling</span><span class="hl-tag">&lt;/li&gt;</span>
   <span class="hl-tag">&lt;li&gt;</span><span class="hl-text">Publish to the web</span><span class="hl-tag">&lt;/li&gt;</span>
 <span class="hl-tag">&lt;/ol&gt;</span></code></pre>
       </div>
-
-      <div class="result-box">
-        <div class="result-label">Result in browser</div>
-        <ol style="padding-left:1.5rem;color:var(--text)">
-          <li>Write the HTML</li><li>Add CSS styling</li><li>Publish to the web</li>
-        </ol>
-      </div>
     </section>
 
     <hr class="divider">
 
-    <!-- 11. Nested lists -->
     <section class="section" id="nested">
-      <div class="section-header">
-        <span class="section-num">11</span>
-        <h2>Nested lists</h2>
-      </div>
-      <p>You can place a list inside a <code>&lt;li&gt;</code> element to create a sub-list. You can mix <code>&lt;ul&gt;</code> and <code>&lt;ol&gt;</code> freely.</p>
-
+      <div class="section-header"><span class="section-num">11</span><h2>Nested lists</h2></div>
+      <p>Place a list inside a <code>&lt;li&gt;</code> to create a sub-list. You can mix <code>&lt;ul&gt;</code> and <code>&lt;ol&gt;</code>.</p>
       <div class="code-wrap">
-        <div class="code-header">
-          <span class="code-label">HTML</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
+        <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
         <pre><code><span class="hl-tag">&lt;ol&gt;</span>
   <span class="hl-tag">&lt;li&gt;</span><span class="hl-text">Walk the dog</span><span class="hl-tag">&lt;/li&gt;</span>
   <span class="hl-tag">&lt;li&gt;</span><span class="hl-text">Go to the store and buy:
@@ -793,115 +336,50 @@ for storing, processing, and transmitting information.</span><span class="hl-tag
   <span class="hl-tag">&lt;li&gt;</span><span class="hl-text">Have dinner</span><span class="hl-tag">&lt;/li&gt;</span>
 <span class="hl-tag">&lt;/ol&gt;</span></code></pre>
       </div>
-
-      <div class="result-box">
-        <div class="result-label">Result in browser</div>
-        <ol style="padding-left:1.5rem;color:var(--text)">
-          <li>Walk the dog</li>
-          <li>Go to the store and buy:
-            <ul style="padding-left:1.25rem">
-              <li>Notebooks</li>
-              <li>A stapler</li>
-            </ul>
-          </li>
-          <li>Have dinner</li>
-        </ol>
-      </div>
     </section>
 
     <hr class="divider">
 
-    <!-- 12. Self-closing tags -->
     <section class="section" id="self-closing">
-      <div class="section-header">
-        <span class="section-num">12</span>
-        <h2>Self-closing tags</h2>
-      </div>
-      <p>Some HTML elements do not have content, so they do not need a closing tag. These are called <strong>self-closing</strong> (or void) elements.</p>
-
+      <div class="section-header"><span class="section-num">12</span><h2>Self-closing tags</h2></div>
+      <p>Some elements have no content and no closing tag.</p>
       <div class="code-wrap">
-        <div class="code-header">
-          <span class="code-label">HTML</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
-        <pre><code><span class="hl-comment">&lt;!-- Line break: moves text to the next line --&gt;</span>
-<span class="hl-tag">&lt;p&gt;</span><span class="hl-text">Line one.</span><span class="hl-tag">&lt;br&gt;</span><span class="hl-text">Line two.</span><span class="hl-tag">&lt;/p&gt;</span>
-
-<span class="hl-comment">&lt;!-- Horizontal rule: draws a divider line --&gt;</span>
-<span class="hl-tag">&lt;hr&gt;</span>
-
-<span class="hl-comment">&lt;!-- Image: no closing tag needed --&gt;</span>
-<span class="hl-tag">&lt;img</span> <span class="hl-attr">src=</span><span class="hl-val">"photo.jpg"</span> <span class="hl-attr">alt=</span><span class="hl-val">"A photo"</span><span class="hl-tag">&gt;</span></code></pre>
+        <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code><span class="hl-tag">&lt;p&gt;</span><span class="hl-text">Line one.</span><span class="hl-tag">&lt;br&gt;</span><span class="hl-text">Line two.</span><span class="hl-tag">&lt;/p&gt;</span>  <span class="hl-comment">&lt;!-- line break --&gt;</span>
+<span class="hl-tag">&lt;hr&gt;</span>                          <span class="hl-comment">&lt;!-- horizontal line --&gt;</span>
+<span class="hl-tag">&lt;img</span> <span class="hl-attr">src=</span><span class="hl-val">"photo.jpg"</span> <span class="hl-attr">alt=</span><span class="hl-val">"..."</span><span class="hl-tag">&gt;</span> <span class="hl-comment">&lt;!-- image --&gt;</span></code></pre>
       </div>
-
-      <table class="ref-table">
-        <thead><tr><th>Tag</th><th>Purpose</th></tr></thead>
-        <tbody>
-          <tr><td><span class="tag">&lt;br&gt;</span></td><td>Line break inside a paragraph</td></tr>
-          <tr><td><span class="tag">&lt;hr&gt;</span></td><td>Horizontal divider line</td></tr>
-          <tr><td><span class="tag">&lt;img&gt;</span></td><td>Embed an image</td></tr>
-          <tr><td><span class="tag">&lt;meta&gt;</span></td><td>Metadata in the <code>&lt;head&gt;</code></td></tr>
-        </tbody>
-      </table>
     </section>
 
     <hr class="divider">
 
-    <!-- 13. Containers -->
     <section class="section" id="containers">
-      <div class="section-header">
-        <span class="section-num">13</span>
-        <h2>Containers <span class="badge badge-new">not in slides</span></h2>
-      </div>
-      <p><code>&lt;div&gt;</code> and <code>&lt;span&gt;</code> are the most commonly used HTML elements. On their own they do nothing visible — they are used to group content so you can style it with CSS later.</p>
-
-      <h3>&lt;div&gt; — block container</h3>
-      <p>Groups block-level elements. Starts on a new line and takes up the full width.</p>
+      <div class="section-header"><span class="section-num">13</span><h2>Containers <span class="badge badge-new">not in slides</span></h2></div>
+      <p><code>&lt;div&gt;</code> and <code>&lt;span&gt;</code> are the most commonly used HTML elements. They are invisible on their own — used to group content so CSS can style it.</p>
       <div class="code-wrap">
-        <div class="code-header">
-          <span class="code-label">HTML</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
-        <pre><code><span class="hl-tag">&lt;div&gt;</span>
+        <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code><span class="hl-comment">&lt;!-- div: block container (starts on new line) --&gt;</span>
+<span class="hl-tag">&lt;div&gt;</span>
   <span class="hl-tag">&lt;h2&gt;</span><span class="hl-text">About me</span><span class="hl-tag">&lt;/h2&gt;</span>
   <span class="hl-tag">&lt;p&gt;</span><span class="hl-text">I am a web developer.</span><span class="hl-tag">&lt;/p&gt;</span>
-<span class="hl-tag">&lt;/div&gt;</span></code></pre>
-      </div>
+<span class="hl-tag">&lt;/div&gt;</span>
 
-      <h3>&lt;span&gt; — inline container</h3>
-      <p>Groups inline content (e.g. one word inside a sentence). Stays on the same line.</p>
-      <div class="code-wrap">
-        <div class="code-header">
-          <span class="code-label">HTML</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
-        <pre><code><span class="hl-tag">&lt;p&gt;</span><span class="hl-text">My favourite colour is </span><span class="hl-tag">&lt;span&gt;</span><span class="hl-text">blue</span><span class="hl-tag">&lt;/span&gt;</span><span class="hl-text">.</span><span class="hl-tag">&lt;/p&gt;</span></code></pre>
+<span class="hl-comment">&lt;!-- span: inline container (stays in the line) --&gt;</span>
+<span class="hl-tag">&lt;p&gt;</span><span class="hl-text">My favourite colour is </span><span class="hl-tag">&lt;span&gt;</span><span class="hl-text">blue</span><span class="hl-tag">&lt;/span&gt;</span><span class="hl-text">.</span><span class="hl-tag">&lt;/p&gt;</span></code></pre>
       </div>
-
-      <div class="tip"><strong>Tip:</strong> <code>&lt;div&gt;</code> and <code>&lt;span&gt;</code> are building blocks for layout. You will use them constantly once you start writing CSS.</div>
     </section>
 
     <hr class="divider">
 
-    <!-- 14. Comments -->
     <section class="section" id="comments">
-      <div class="section-header">
-        <span class="section-num">14</span>
-        <h2>Comments</h2>
-      </div>
-      <p>Comments are notes you write in your code for yourself (or your team). The browser ignores them completely — they are never displayed on the page.</p>
-
+      <div class="section-header"><span class="section-num">14</span><h2>Comments</h2></div>
+      <p>Comments are notes in your code. The browser ignores them completely.</p>
       <div class="code-wrap">
-        <div class="code-header">
-          <span class="code-label">HTML</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
-        <pre><code><span class="hl-comment">&lt;!-- This is a comment. The browser ignores it. --&gt;</span>
+        <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code><span class="hl-comment">&lt;!-- This is a comment. Not shown in the browser. --&gt;</span>
 <span class="hl-tag">&lt;p&gt;</span><span class="hl-text">Hello world!</span><span class="hl-tag">&lt;/p&gt;</span>
 
-<span class="hl-comment">&lt;!-- TODO: add an image here later --&gt;</span>
-
-<span class="hl-comment">&lt;!-- You can also comment out code to disable it:
+<span class="hl-comment">&lt;!-- Disable code temporarily:
 &lt;p&gt;This paragraph is hidden.&lt;/p&gt;
 --&gt;</span></code></pre>
       </div>
@@ -909,98 +387,71 @@ for storing, processing, and transmitting information.</span><span class="hl-tag
 
     <hr class="divider">
 
-    <!-- 15. Closing rules -->
     <section class="section" id="rules">
-      <div class="section-header">
-        <span class="section-num">15</span>
-        <h2>Tag closing rules</h2>
-      </div>
-      <p>Nested tags must be closed in the <strong>reverse order</strong> they were opened — last in, first out.</p>
-
+      <div class="section-header"><span class="section-num">15</span><h2>Tag closing rules</h2></div>
+      <p>Nested tags must close in the <strong>reverse order</strong> they were opened — last in, first out.</p>
       <div class="code-wrap">
-        <div class="code-header">
-          <span class="code-label">HTML</span>
-          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-        </div>
-        <pre><code><span class="hl-comment">&lt;!-- WRONG: &lt;i&gt; was opened after &lt;p&gt;, so it must close first --&gt;</span>
+        <div class="code-header"><span class="code-label">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code><span class="hl-comment">&lt;!-- WRONG --&gt;</span>
 <span class="hl-tag">&lt;p&gt;&lt;i&gt;</span><span class="hl-text">Be careful!</span><span class="hl-tag">&lt;/p&gt;&lt;/i&gt;</span>
 
 <span class="hl-comment">&lt;!-- CORRECT --&gt;</span>
 <span class="hl-tag">&lt;p&gt;&lt;i&gt;</span><span class="hl-text">Be careful!</span><span class="hl-tag">&lt;/i&gt;&lt;/p&gt;</span></code></pre>
       </div>
-
-      <div class="warn"><strong>Common mistake:</strong> Forgetting to close a tag can break the layout of your entire page. Always double-check that every opening tag has a matching closing tag in the right order.</div>
+      <div class="warn"><strong>Common mistake:</strong> Forgetting to close a tag can break the layout of the entire page.</div>
     </section>
 
     <hr class="divider">
 
-    <!-- 16. Quick reference -->
     <section class="section" id="reference">
-      <div class="section-header">
-        <span class="section-num">16</span>
-        <h2>Quick reference</h2>
-      </div>
-      <p>A summary of all the HTML tags covered in this tutorial.</p>
-
+      <div class="section-header"><span class="section-num">16</span><h2>Quick reference</h2></div>
       <table class="ref-table">
-        <thead>
-          <tr><th>Tag</th><th>Type</th><th>Purpose</th></tr>
-        </thead>
+        <thead><tr><th>Tag</th><th>Type</th><th>Purpose</th></tr></thead>
         <tbody>
-          <tr><td><span class="tag">&lt;!DOCTYPE html&gt;</span></td><td>—</td><td>Declares the document as HTML5</td></tr>
-          <tr><td><span class="tag">&lt;html&gt;</span></td><td>Block</td><td>Root element of the page</td></tr>
-          <tr><td><span class="tag">&lt;head&gt;</span></td><td>—</td><td>Page metadata (not displayed)</td></tr>
-          <tr><td><span class="tag">&lt;meta charset="UTF-8"&gt;</span></td><td>Self-closing</td><td>Character encoding declaration</td></tr>
+          <tr><td><span class="tag">&lt;!DOCTYPE html&gt;</span></td><td>—</td><td>Declares HTML5 document</td></tr>
+          <tr><td><span class="tag">&lt;html&gt;</span></td><td>Block</td><td>Root element</td></tr>
+          <tr><td><span class="tag">&lt;head&gt;</span></td><td>—</td><td>Page metadata</td></tr>
+          <tr><td><span class="tag">&lt;meta charset&gt;</span></td><td>Self-closing</td><td>Character encoding</td></tr>
           <tr><td><span class="tag">&lt;title&gt;</span></td><td>—</td><td>Browser tab title</td></tr>
-          <tr><td><span class="tag">&lt;body&gt;</span></td><td>Block</td><td>Visible page content</td></tr>
-          <tr><td><span class="tag">&lt;h1&gt;</span> – <span class="tag">&lt;h6&gt;</span></td><td>Block</td><td>Headings (6 levels)</td></tr>
+          <tr><td><span class="tag">&lt;body&gt;</span></td><td>Block</td><td>Visible content</td></tr>
+          <tr><td><span class="tag">&lt;h1&gt;–&lt;h6&gt;</span></td><td>Block</td><td>Headings</td></tr>
           <tr><td><span class="tag">&lt;p&gt;</span></td><td>Block</td><td>Paragraph</td></tr>
-          <tr><td><span class="tag">&lt;b&gt;</span> / <span class="tag">&lt;strong&gt;</span></td><td>Inline</td><td>Bold text (strong = semantic)</td></tr>
-          <tr><td><span class="tag">&lt;i&gt;</span> / <span class="tag">&lt;em&gt;</span></td><td>Inline</td><td>Italic text (em = semantic)</td></tr>
-          <tr><td><span class="tag">&lt;blockquote&gt;</span></td><td>Block</td><td>Indented long quotation</td></tr>
-          <tr><td><span class="tag">&lt;a href="..."&gt;</span></td><td>Inline</td><td>Hyperlink</td></tr>
-          <tr><td><span class="tag">&lt;img src="..." alt="..."&gt;</span></td><td>Self-closing</td><td>Embed an image</td></tr>
-          <tr><td><span class="tag">&lt;ul&gt;</span></td><td>Block</td><td>Unordered (bulleted) list</td></tr>
-          <tr><td><span class="tag">&lt;ol&gt;</span></td><td>Block</td><td>Ordered (numbered) list</td></tr>
-          <tr><td><span class="tag">&lt;li&gt;</span></td><td>Block</td><td>List item</td></tr>
-          <tr><td><span class="tag">&lt;br&gt;</span></td><td>Self-closing</td><td>Line break</td></tr>
-          <tr><td><span class="tag">&lt;hr&gt;</span></td><td>Self-closing</td><td>Horizontal divider line</td></tr>
+          <tr><td><span class="tag">&lt;b&gt; / &lt;strong&gt;</span></td><td>Inline</td><td>Bold text</td></tr>
+          <tr><td><span class="tag">&lt;i&gt; / &lt;em&gt;</span></td><td>Inline</td><td>Italic text</td></tr>
+          <tr><td><span class="tag">&lt;blockquote&gt;</span></td><td>Block</td><td>Long quotation</td></tr>
+          <tr><td><span class="tag">&lt;a href&gt;</span></td><td>Inline</td><td>Hyperlink</td></tr>
+          <tr><td><span class="tag">&lt;img src alt&gt;</span></td><td>Self-closing</td><td>Image</td></tr>
+          <tr><td><span class="tag">&lt;ul&gt; / &lt;ol&gt; / &lt;li&gt;</span></td><td>Block</td><td>Lists</td></tr>
+          <tr><td><span class="tag">&lt;br&gt; / &lt;hr&gt;</span></td><td>Self-closing</td><td>Line break / divider</td></tr>
           <tr><td><span class="tag">&lt;div&gt;</span></td><td>Block</td><td>Generic block container</td></tr>
           <tr><td><span class="tag">&lt;span&gt;</span></td><td>Inline</td><td>Generic inline container</td></tr>
-          <tr><td><span class="tag">&lt;!-- --&gt;</span></td><td>—</td><td>Comment (not displayed)</td></tr>
+          <tr><td><span class="tag">&lt;!-- --&gt;</span></td><td>—</td><td>Comment</td></tr>
         </tbody>
       </table>
     </section>
-
   </main>
+
+  <nav class="pagination">
+    <a class="page-btn" href="page1.html"><span class="page-btn-label">← Previous</span><span class="page-btn-title">How the Internet Works</span></a>
+    <a class="home-btn" href="index.html">🏠 Home</a>
+    <a class="page-btn" href="page3.html"><span class="page-btn-label">Next lesson</span><span class="page-btn-title">CSS Basics →</span></a>
+  </nav>
+  </div>
 </div>
 
 <script>
   function copyCode(btn) {
-    const pre = btn.closest('.code-wrap').querySelector('pre');
-    const text = pre.innerText;
+    const text = btn.closest('.code-wrap').querySelector('pre').innerText;
     navigator.clipboard.writeText(text).then(() => {
-      btn.textContent = 'Copied!';
-      btn.classList.add('copied');
+      btn.textContent = 'Copied!'; btn.classList.add('copied');
       setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
     });
   }
-
-  const links = document.querySelectorAll('.nav-link');
-  const sections = document.querySelectorAll('.section');
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        links.forEach(l => l.classList.remove('active'));
-        const active = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
-        if (active) active.classList.add('active');
-      }
-    });
-  }, { threshold: 0.35 });
-
-  sections.forEach(s => observer.observe(s));
+  const secLinks = document.querySelectorAll('.sec-link');
+  document.querySelectorAll('.section').forEach(s =>
+    new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { secLinks.forEach(l => l.classList.remove('active')); const a = document.querySelector(`.sec-link[href="#${e.target.id}"]`); if (a) a.classList.add('active'); }
+    }), { threshold: 0.4 }).observe(s));
 </script>
-
 </body>
 </html>
