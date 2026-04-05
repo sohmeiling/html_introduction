@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Development Tutorial — Module 6</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f9f7f4;
+      --surface: #ffffff;
+      --border: #e4e0d8;
+      --text: #1a1814;
+      --muted: #6b6760;
+      --accent: #c84b2f;
+      --accent-light: #fdf0ec;
+      --tag-color: #2d6a8f;
+      --tag-bg: #eaf3fa;
+      --success: #2a6e4e;
+      --success-bg: #eaf5ef;
+      --radius: 10px;
+      --font-serif: 'DM Serif Display', Georgia, serif;
+      --font-sans: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'DM Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-sans); background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* Top nav */
+    .topnav {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      height: 52px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo { font-family: var(--font-serif); font-size: 1rem; color: var(--accent); text-decoration: none; white-space: nowrap; }
+    .nav-divider { width: 1px; height: 18px; background: var(--border); }
+    .nav-links { display: flex; gap: .25rem; }
+    .nav-pill {
+      font-size: 13px; color: var(--muted); text-decoration: none;
+      padding: .3rem .75rem; border-radius: 20px; transition: all .15s;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .nav-pill:hover { background: var(--bg); color: var(--text); }
+    .nav-pill.active { background: var(--accent-light); color: var(--accent); font-weight: 500; }
+    .nav-num { font-family: var(--font-mono); font-size: 10px; opacity: .6; }
+
+    /* Hero */
+    .hero {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 5rem 2rem 2rem;
+      text-align: center;
+    }
+    .hero-tag {
+      display: inline-block; font-size: 11px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: .1em;
+      color: var(--accent); background: var(--accent-light);
+      padding: 3px 12px; border-radius: 20px; margin-bottom: 1.25rem;
+    }
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: 3rem; line-height: 1.1;
+      color: var(--text); margin-bottom: 1rem;
+    }
+    .hero-desc {
+      font-size: 1rem; color: var(--muted); line-height: 1.7;
+      max-width: 480px; margin: 0 auto 3rem;
+    }
+
+    /* Lesson cards */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2rem 6rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem 1.5rem;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+      transition: box-shadow .2s, transform .2s, border-color .2s;
+      cursor: pointer;
+    }
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(200,75,47,.08);
+    }
+
+    .card-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+    }
+    .icon-1 { background: var(--tag-bg); }
+    .icon-2 { background: var(--accent-light); }
+    .icon-3 { background: var(--success-bg); }
+
+    .card-num {
+      font-family: var(--font-mono);
+      font-size: 10px; color: var(--muted);
+      letter-spacing: .08em;
+    }
+    .card-title {
+      font-family: var(--font-serif);
+      font-size: 1.25rem; color: var(--text); line-height: 1.25;
+    }
+    .card-desc { font-size: .88rem; color: var(--muted); line-height: 1.6; flex: 1; }
+
+    .card-topics {
+      display: flex; flex-wrap: wrap; gap: 5px; margin-top: .25rem;
+    }
+    .topic-pill {
+      font-size: 11px; padding: 2px 8px; border-radius: 20px;
+      background: var(--bg); color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .card-cta {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: .5rem; padding-top: .75rem;
+      border-top: 1px solid var(--border);
+      font-size: .85rem; font-weight: 500; color: var(--accent);
+    }
+
+    @media (max-width: 700px) {
+      .cards { grid-template-columns: 1fr; }
+      .hero-title { font-size: 2.2rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="topnav">
+    <a class="nav-logo" href="index.html">Web Dev</a>
+    <div class="nav-divider"></div>
+    <div class="nav-links">
+      <a class="nav-pill active" href="index.html">Home</a>
+      <a class="nav-pill" href="page1.html"><span class="nav-num">01</span> Internet</a>
+      <a class="nav-pill" href="page2.html"><span class="nav-num">02</span> HTML</a>
+      <a class="nav-pill" href="page3.html"><span class="nav-num">03</span> CSS</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <span class="hero-tag">Module 6 · Lesson 1</span>
+    <h1 class="hero-title">Introduction to<br>Web Development</h1>
+    <p class="hero-desc">Learn the building blocks of every website — from how the Internet works, to writing HTML and styling with CSS.</p>
+  </section>
+
+  <div class="cards">
+
+    <a class="card" href="page1.html">
+      <div class="card-icon icon-1">🌐</div>
+      <div class="card-num">Lesson 01</div>
+      <div class="card-title">How the Internet Works</div>
+      <div class="card-desc">Understand what happens behind the scenes when you open a website — servers, protocols, and URLs explained.</div>
+      <div class="card-topics">
+        <span class="topic-pill">IP addresses</span>
+        <span class="topic-pill">HTTP &amp; HTTPS</span>
+        <span class="topic-pill">URLs</span>
+        <span class="topic-pill">Static vs dynamic</span>
+      </div>
+      <div class="card-cta">Start lesson <span>→</span></div>
+    </a>
+
+    <a class="card" href="page2.html">
+      <div class="card-icon icon-2">📄</div>
+      <div class="card-num">Lesson 02</div>
+      <div class="card-title">HTML Basics</div>
+      <div class="card-desc">Write your first web page using HyperText Markup Language — the structure behind every website on the Internet.</div>
+      <div class="card-topics">
+        <span class="topic-pill">Tags &amp; elements</span>
+        <span class="topic-pill">Links &amp; images</span>
+        <span class="topic-pill">Lists</span>
+        <span class="topic-pill">Document structure</span>
+      </div>
+      <div class="card-cta">Start lesson <span>→</span></div>
+    </a>
+
+    <a class="card" href="page3.html">
+      <div class="card-icon icon-3">🎨</div>
+      <div class="card-num">Lesson 03</div>
+      <div class="card-title">CSS Basics</div>
+      <div class="card-desc">Make your pages look great with Cascading Style Sheets — control colours, fonts, spacing, and layout.</div>
+      <div class="card-topics">
+        <span class="topic-pill">Selectors</span>
+        <span class="topic-pill">Colors &amp; fonts</span>
+        <span class="topic-pill">Box model</span>
+        <span class="topic-pill">Layout</span>
+      </div>
+      <div class="card-cta">Start lesson <span>→</span></div>
+    </a>
+
+  </div>
+
+</body>
+</html>
